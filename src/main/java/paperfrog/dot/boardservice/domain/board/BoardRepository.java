@@ -1,11 +1,14 @@
 package paperfrog.dot.boardservice.domain.board;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+@Repository
 public class BoardRepository {
     private static final Map<Long,Board> store=new ConcurrentHashMap<>();
     private Long sequence=0L;

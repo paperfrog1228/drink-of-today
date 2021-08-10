@@ -5,8 +5,13 @@
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <body>
-<article class="post vt-post">
-      
-</article>
+<div>
+    <h3 th:text="${board.id}">board id: </h3>
+    <h3 th:text="${board.title}">게시물 제목</h3>
+    <div class="d-flex justify-content-start">
+        <h5>글쓴이 </h5><h5 class="ms-3" th:text="${board.date}">yy-mm-ss</h5>
+    </div>
+    <h4>게시물 내용</h4>
+</div>
 </body>
 </html>

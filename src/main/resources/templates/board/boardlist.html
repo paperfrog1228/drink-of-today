@@ -10,8 +10,10 @@
 
   <div class="row gy-5" >
     <div class="col-md-3" th:each="board:${boardList}">
-  <div href="#" class="card btn ">
+  <div class="card">
     <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"  alt=""/>
+    <button th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}'|">
+<!--      <button onclick=location.href="/board/view/board">-->
     <div class="card-body">
       <h4 class="card-title" th:text="${board.title}">글 제목</h4>
       <div class="d-flex justify-content-start">
@@ -19,6 +21,7 @@
         <h5 class="card-text" th:text="${board.date}">날짜</h5>
       </div>
     </div>
+    </button>
   </div>
     </div>
   </div>

@@ -11,7 +11,8 @@
     <div class="d-flex justify-content-start">
         <h5>글쓴이 </h5><h5 class="ms-3" th:text="${board.date}">yy-mm-ss</h5>
     </div>
-    <h4>게시물 내용</h4>
+    <h4 th:text="${board.content}">게시물 내용</h4>
 </div>
+<button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
 </body>
 </html>

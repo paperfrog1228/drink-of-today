@@ -6,7 +6,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <body>
 <div class="container">
-  <button>글 쓰기</button>
+  <button th:onclick="|location.href='@{/board/write}'|">글 쓰기</button>
 
   <div class="row gy-5" >
     <div class="col-md-3" th:each="board:${boardList}">

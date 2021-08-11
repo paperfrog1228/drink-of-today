@@ -1,12 +1,13 @@
 package paperfrog.dot.memberservice.domain.member;
 
+import org.springframework.stereotype.Repository;
 import paperfrog.dot.boardservice.domain.board.Board;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+@Repository
 public class MemberRepository {
     private static final Map<Long, Member> store=new ConcurrentHashMap<>();
     private Long sequence=0L;

@@ -8,8 +8,10 @@ import lombok.Setter;
 public class Member {
     private Long id;
     private String nickname;
+
     private String loginId;
     private String password;
+
     public Member(String nickname) {
         this.nickname = nickname;
     }

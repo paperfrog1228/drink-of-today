@@ -24,11 +24,15 @@ public class LoginController {
     @PostMapping("/login")
     public String login(LoginForm form, RedirectAttributes redirectAttributes){
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+        log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null){
             //Todo: 로그인 실패 처리
+            return "/login/loginForm";
         }
         //Todo: 로그인 성공 처리
-        return "redirect:/board/list";
+        redirectAttributes.addAttribute("memberId",loginMember.getId());
+        log.debug("loginMember {}",loginMember);
+        return "redirect:/";
     }
 
 }

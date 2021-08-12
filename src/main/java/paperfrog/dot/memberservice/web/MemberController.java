@@ -37,6 +37,6 @@ public class MemberController {
         Member save_member=memberRepository.save(member);
         //redirectAttributes.addAttribute("boardId",save_member.getId());
         //redirectAttributes.addAttribute("status",true);
-        return "redirect:/member/member_list";
+        return "redirect:/";
     }
 }

@@ -15,4 +15,8 @@ public class Member {
     public Member(String nickname) {
         this.nickname = nickname;
     }
+
+    public Member() {
+
+    }
 }

@@ -6,6 +6,7 @@ import paperfrog.dot.boardservice.domain.board.Board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemberRepository {
@@ -23,6 +24,9 @@ public class MemberRepository {
         List<Member> list;
         list = new ArrayList<Member>(store.values());
         return list;
+    }
+    public Optional<Member> findByLoginId(String loginId){
+        return findAll().stream().filter(m->m.getLoginId().equals(loginId)).findFirst();
     }
     public void clear(){
         store.clear();

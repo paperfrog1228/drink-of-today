@@ -11,6 +11,9 @@ import paperfrog.dot.memberservice.domain.login.LoginService;
 import paperfrog.dot.memberservice.domain.member.Member;
 import paperfrog.dot.memberservice.web.Login.LoginForm;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -22,17 +25,17 @@ public class LoginController {
         return "login/loginForm";
     }
     @PostMapping("/login")
-    public String login(LoginForm form, RedirectAttributes redirectAttributes){
+    public String login(LoginForm form, HttpServletRequest request){
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null){
             //Todo: 로그인 실패 처리
             return "/login/loginForm";
         }
-        //Todo: 로그인 성공 처리
-        redirectAttributes.addAttribute("memberId",loginMember.getId());
+        //세션 처리
+        HttpSession session=request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER,loginMember);
         log.debug("loginMember {}",loginMember);
         return "redirect:/";
     }
-
 }

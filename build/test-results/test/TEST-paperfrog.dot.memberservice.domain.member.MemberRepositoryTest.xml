@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="paperfrog.dot.memberservice.domain.member.MemberRepositoryTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-08-11T14:10:27" hostname="paperfrog-mac.local" time="0.106">
+  <properties/>
+  <testcase name="저장 닉네임 확인" classname="paperfrog.dot.memberservice.domain.member.MemberRepositoryTest" time="0.08"/>
+  <testcase name="전체 검색(3개 저장)" classname="paperfrog.dot.memberservice.domain.member.MemberRepositoryTest" time="0.004"/>
+  <testcase name="전체 검색(100개 저장)" classname="paperfrog.dot.memberservice.domain.member.MemberRepositoryTest" time="0.016"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

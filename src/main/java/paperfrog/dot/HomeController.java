@@ -21,14 +21,18 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
    private final MemberRepository memberRepository;
    @GetMapping
-   public String homeLogin(@SessionAttribute(name=SessionConst.LOGIN_MEMBER,required = false)Member loginMember, Model model) {
+   public String homeLogin(@SessionAttribute(name=SessionConst.LOGIN_MEMBER,required = false)Member loginMember,
+                           Model model,
+                           HttpServletRequest request) {
+      model.addAttribute("loginMember", loginMember);
       //비로그인(세션 없음)
       if (loginMember == null) {
-         return "home";
+         log.debug("비회원 접근 : {}",loginMember);
+        return "/Layout";
       }
       //로그인
-      model.addAttribute("member", loginMember);
+      model.addAttribute(SessionConst.LOGIN_MEMBER,loginMember);
       log.debug("Login Success memberId : {} LoginId : {}",loginMember.getId(),loginMember.getLoginId());
-      return "loginHome";
+      return "/Layout";
    }
 }

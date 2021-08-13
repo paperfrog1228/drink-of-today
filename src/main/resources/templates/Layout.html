@@ -1,15 +1,11 @@
+<!--전체 레이아웃 기본 폼입니다-->
 <!DOCTYPE html>
 <head th:replace="/fragments/header.html :: common_head('test')"></head>
 <body>
-<container>
-    <div class="d-flex justify-content-start">
-        <div th:replace="/fragments/top.html ::logo"></div>
-        <div th:replace="/fragments/top.html :: non_login"></div>
-    </div>
-    <h1>레이아웃 H1</h1>
-</container>
-
-<!--<div th:replace="${content}"> <p>레이아웃 컨텐츠</p>-->
+    <div th:replace="/fragments/top.html :: top"></div>
+    <div th:replace="/fragments/top.html :: nav"></div>
+<!--콘텐츠 시작-->
+<!--콘텐츠 끝-->
 <footer th:replace="/fragments/footer.html :: footer"> 레이아웃 푸터
 </footer>
 </body>

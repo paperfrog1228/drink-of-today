@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<head th:replace="/fragments/header.html :: common_head('test')"></head>
+<body>
+<container>
+    <div class="d-flex justify-content-start">
+        <div th:replace="/fragments/top.html ::logo"></div>
+        <div th:replace="/fragments/top.html :: non_login"></div>
+    </div>
+    <h1>레이아웃 H1</h1>
+</container>
+
+<!--<div th:replace="${content}"> <p>레이아웃 컨텐츠</p>-->
+<footer th:replace="/fragments/footer.html :: footer"> 레이아웃 푸터
+</footer>
+</body>
+</html>

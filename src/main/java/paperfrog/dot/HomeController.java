@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import paperfrog.dot.memberservice.domain.member.Member;
 import paperfrog.dot.memberservice.domain.member.MemberRepository;
 import paperfrog.dot.memberservice.web.SessionConst;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 @Controller
 @Slf4j
 @RequestMapping("/")

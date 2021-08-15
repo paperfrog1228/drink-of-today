@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.dot.memberservice.domain.member.Member;
 import paperfrog.dot.memberservice.domain.member.MemberRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -20,6 +21,13 @@ import java.util.List;
 public class MemberController {
     private final MemberRepository memberRepository;
 
+    @PostConstruct
+    public void testMember(){
+        Member member=new Member("test입니당");
+        member.setLoginId("test");
+        member.setPassword("qqq");
+        memberRepository.save(member);
+    }
     // 회원가입
     @GetMapping("/join")
     public String joinForm(Model model){
@@ -29,6 +37,7 @@ public class MemberController {
     @PostMapping("/join")
     public String join(Member member, RedirectAttributes redirectAttributes){
         Member save_member=memberRepository.save(member);
+        log.debug("new member : {}",save_member);
         return "redirect:/";
     }
     @GetMapping("member_list")

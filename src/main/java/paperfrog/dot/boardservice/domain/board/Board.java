@@ -9,6 +9,7 @@ import java.util.Date;
 @Setter
 public class Board {
     private Long id;
+    private String writer;
     private String date;
     private String title;
     private String content;

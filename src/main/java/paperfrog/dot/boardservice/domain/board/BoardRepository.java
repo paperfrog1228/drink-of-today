@@ -23,6 +23,7 @@ public class BoardRepository {
         store.put(board.getId(), board);
         return board;
     }
+
     public Board findById(Long id){
         return store.get(id);
     }

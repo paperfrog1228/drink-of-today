@@ -7,8 +7,9 @@
 <section class="w-50 mx-auto">
     <!--콘텐츠 시작-->
 <div class="container" >
+    <div th:if="${loginMember}!=null">
     <button th:onclick="|location.href='@{/board/write}'|">글 쓰기</button>
-
+    </div>
     <div class="row gy-5" >
         <div class="col-md-3" th:each="board:${boardList}">
             <div class="card">

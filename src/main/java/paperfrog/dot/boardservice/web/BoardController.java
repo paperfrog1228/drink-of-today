@@ -38,14 +38,17 @@ public class BoardController {
         model.addAttribute("board",board);
         return "board/view/board";
     }
+    //create,write,add
     @GetMapping("/write")
-    public String write(Model model){
-        model.addAttribute("board",new Board());
-        return "board/write";
+    public String writeForm(Model model,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
+        Board board=new Board();
+        model.addAttribute("board",board);
+        model.addAttribute("loginMember",loginMember);
+        return "board/writeForm";
     }
     @PostMapping("/add")
-    public String add(Board board, RedirectAttributes redirectAttributes){
-        log.debug("add board : {}",board);
+    public String add(@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember, Board board, RedirectAttributes redirectAttributes){
+        board.setWriter(loginMember.getNickname());
         Board saveBoard=boardRepository.save(board);
         redirectAttributes.addAttribute("boardId",saveBoard.getId());
         redirectAttributes.addAttribute("status",true);

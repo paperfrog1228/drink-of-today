@@ -2,17 +2,27 @@ package paperfrog.dot.boardservice.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.dot.boardservice.domain.board.Board;
+import paperfrog.dot.boardservice.domain.board.BoardForm;
 import paperfrog.dot.boardservice.domain.board.BoardRepository;
+import paperfrog.dot.boardservice.domain.board.UploadFile;
+import paperfrog.dot.boardservice.file.FileStore;
 import paperfrog.dot.memberservice.domain.member.Member;
 import paperfrog.dot.memberservice.web.SessionConst;
 
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Controller
@@ -21,6 +31,7 @@ import java.util.List;
 @Slf4j
 public class BoardController {
     private final BoardRepository boardRepository;
+    private final FileStore fileStore;
     @PostConstruct
     public void testBoard(){
         boardRepository.save(new Board("ttt","ff"));
@@ -32,23 +43,43 @@ public class BoardController {
         model.addAttribute("loginMember",loginMember);
         return "board/list";
     }
+    //read,view
     @GetMapping("/{boardId}")
     public String board(Model model, @PathVariable long boardId){
         Board board = boardRepository.findById(boardId);
         model.addAttribute("board",board);
         return "board/view/board";
     }
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:"+fileStore.getFullPath(filename));
+    }
+//    @GetMapping("/attach/{boardId}")
+//    public ResponseEntity<Resource> downloadAttach(@PathVariable Long boardId) throws MalformedURLException {
+//        Board board=boardRepository.findById(boardId);
+//        String storeFileName=board.getAttachFile().getStoreFileName();
+//        String uploadFileName=board.getAttachFile().getUploadFileName();
+//        UrlResource resource = new UrlResource("file:"+fileStore.getFullPath(storeFileName));
+//        String contentDisposition="attachment; filename=\""+uploadFileName+"\"";
+//        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,contentDisposition).body(resource)
+//    }
     //create,write,add
     @GetMapping("/write")
     public String writeForm(Model model,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
-        Board board=new Board();
-        model.addAttribute("board",board);
+        model.addAttribute("board",new BoardForm());
         model.addAttribute("loginMember",loginMember);
         return "board/writeForm";
     }
     @PostMapping("/add")
-    public String add(@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember, Board board, RedirectAttributes redirectAttributes){
+    public String add(@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember, BoardForm boardForm, RedirectAttributes redirectAttributes) throws IOException {
+        Board board=new Board();
+        board.setImageFiles(fileStore.storeFiles(boardForm.getImageFiles()));
+        //todo: 아 optional 고쳐줘야함 피곤
+        if(loginMember!=null)
         board.setWriter(loginMember.getNickname());
+        board.setContent(boardForm.getContent());
+        board.setTitle(boardForm.getTitle());
         Board saveBoard=boardRepository.save(board);
         redirectAttributes.addAttribute("boardId",saveBoard.getId());
         redirectAttributes.addAttribute("status",true);

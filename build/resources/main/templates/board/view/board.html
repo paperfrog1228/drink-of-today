@@ -20,7 +20,7 @@
 <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
     <div>
         <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/{boardId}/editForm(boardId=${board.id})}'|" >  수정  </button>
-        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/delete}'|">  삭제  </button>
+        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/{boardId}/delete(boardId=${board.id})}'|">  삭제  </button>
         <div>
     </div>
 </div>

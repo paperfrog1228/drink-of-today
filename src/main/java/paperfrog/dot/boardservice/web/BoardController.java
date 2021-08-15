@@ -64,4 +64,10 @@ public class BoardController {
         boardRepository.update(boardId,saveBoard);
         return "redirect:/board/list";
     }
+    //delete
+    @GetMapping("/{boardId}/delete")
+    public String delete(@PathVariable long boardId){
+        boardRepository.delete(boardId);
+        return "redirect:/board/list";
+    }
 }

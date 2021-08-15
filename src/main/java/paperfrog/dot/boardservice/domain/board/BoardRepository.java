@@ -35,6 +35,9 @@ public class BoardRepository {
         findItem.setContent(updateBoard.getContent());
         findItem.setTitle(updateBoard.getTitle());
     }
+    public void delete(Long boardId){
+        store.remove(boardId);
+    }
     public void clear(){
         store.clear();
     }

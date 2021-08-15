@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.dot.boardservice.domain.board.Board;
 import paperfrog.dot.boardservice.domain.board.BoardForm;
 import paperfrog.dot.boardservice.domain.board.BoardRepository;
+import paperfrog.dot.boardservice.domain.board.UploadFile;
 import paperfrog.dot.boardservice.file.FileStore;
 import paperfrog.dot.memberservice.domain.member.Member;
 import paperfrog.dot.memberservice.web.SessionConst;
@@ -72,8 +73,8 @@ public class BoardController {
     }
     @PostMapping("/add")
     public String add(@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember, BoardForm boardForm, RedirectAttributes redirectAttributes) throws IOException {
-        fileStore.storeFiles(boardForm.getImageFiles());
         Board board=new Board();
+        board.setImageFiles(fileStore.storeFiles(boardForm.getImageFiles()));
         //todo: 아 optional 고쳐줘야함 피곤
         if(loginMember!=null)
         board.setWriter(loginMember.getNickname());

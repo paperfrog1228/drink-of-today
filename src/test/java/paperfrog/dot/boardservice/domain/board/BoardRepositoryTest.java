@@ -20,8 +20,7 @@ class BoardRepositoryTest {
     @DisplayName("저장 제목 확인")
     public void save_title(){
         //given
-        Date date=new Date();
-        Board board=new Board(date,"title","content");
+        Board board=new Board("title","content");
         //when
         Board saveBoard=boardRepository.save(board);
         //then
@@ -31,8 +30,7 @@ class BoardRepositoryTest {
     @DisplayName("저장 내용 확인")
     public void save_content(){
         //given
-        Date date=new Date();
-        Board board=new Board(date,"title","content");
+        Board board=new Board("title","content");
         //when
         Board saveBoard=boardRepository.save(board);
         //then
@@ -43,7 +41,7 @@ class BoardRepositoryTest {
     public void save_date(){
         //given
         Date date=new Date();
-        Board board=new Board(date,"title","content");
+        Board board=new Board("title","content");
         //when
         Board saveBoard=boardRepository.save(board);
         //then
@@ -54,8 +52,7 @@ class BoardRepositoryTest {
     @DisplayName("id로 검색")
     public void find_by_id(){
         //given
-        Date date=new Date();
-        Board board=new Board(date,"title","content");
+        Board board=new Board("title","content");
         //when
         Board saveBoard=boardRepository.save(board);
         Board findBoard=boardRepository.findById(saveBoard.getId());
@@ -67,10 +64,9 @@ class BoardRepositoryTest {
     @DisplayName("전체 검색(3개 저장)")
     public void find_all_three(){
         //given
-        Date date=new Date();
-        Board board1=new Board(date,"title1","content1");
-        Board board2=new Board(date,"title2","content2");
-        Board board3=new Board(date,"title3","content3");
+        Board board1=new Board("title1","content1");
+        Board board2=new Board("title2","content2");
+        Board board3=new Board("title3","content3");
         boardRepository.save(board1);
         boardRepository.save(board2);
         boardRepository.save(board3);
@@ -84,8 +80,7 @@ class BoardRepositoryTest {
     public void find_all_100(){
         //given
         for(int i=1;i<=100;i++) {
-            Date date = new Date();
-            boardRepository.save(new Board(date, "title1"+i, "content"+i));
+            boardRepository.save(new Board( "title1"+i, "content"+i));
         }
         //when
         List<Board> list=boardRepository.findAll();

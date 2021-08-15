@@ -9,14 +9,13 @@ import java.util.Date;
 @Setter
 public class Board {
     private Long id;
-    Date date;
+    private String date;
     private String title;
     private String content;
 
-    public Board(Date date, String title, String content) {
-        this.id = id;
-        this.date = date;
+    public Board(String title, String content) {
         this.title = title;
         this.content = content;
     }
+
 }

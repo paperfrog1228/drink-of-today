@@ -3,6 +3,8 @@ package paperfrog.dot.boardservice.domain.board;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +17,9 @@ public class BoardRepository {
     private Date date;
     public Board save(Board board){
         board.setId(++sequence);
-        date=new Date();
-        board.setDate(date);
+        LocalDateTime now=LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.M.d hh:mm:ss");
+        board.setDate(now.format(dateTimeFormatter));
         store.put(board.getId(), board);
         return board;
     }

@@ -1,40 +1,37 @@
 package paperfrog.dot.boardservice.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.ComponentScan;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.dot.boardservice.domain.board.Board;
 import paperfrog.dot.boardservice.domain.board.BoardRepository;
+import paperfrog.dot.memberservice.domain.member.Member;
+import paperfrog.dot.memberservice.web.SessionConst;
 
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
     private final BoardRepository boardRepository;
-
-//    @PostConstruct
-//    public void addTestBoard(){
-//        for(int i=1;i<=100;i++) {
-//            Date date = new Date();
-//            boardRepository.save(new Board(date, "title"+i, "content"+i));
-//        }
-//    }
+    @PostConstruct
+    public void testBoard(){
+        boardRepository.save(new Board("ttt","ff"));
+    }
     @RequestMapping("/list")
-    public String boardList(Model model){
+    public String boardList(Model model,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
         List<Board> boardList=boardRepository.findAll();
         model.addAttribute("boardList",boardList);
-        return "board/boardlist";
+        model.addAttribute("loginMember",loginMember);
+        return "board/list";
     }
     @GetMapping("/{boardId}")
     public String board(Model model, @PathVariable long boardId){
@@ -48,6 +45,7 @@ public class BoardController {
     }
     @PostMapping("/add")
     public String add(Board board, RedirectAttributes redirectAttributes){
+        log.debug("add board : {}",board);
         Board saveBoard=boardRepository.save(board);
         redirectAttributes.addAttribute("boardId",saveBoard.getId());
         redirectAttributes.addAttribute("status",true);

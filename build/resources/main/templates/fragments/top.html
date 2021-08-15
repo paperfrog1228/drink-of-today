@@ -1,0 +1,79 @@
+<!--debug 용 css , utf-8-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">">
+<meta charset="utf-8">
+<!-- debug 용 끝 -->
+
+<!-- 제일 윗 부분. 로고 + (로그인 버튼 or 로그인 된 사용자 이름)-->
+<!-- 모델로 받는 세션의 null 여부로 로그인, 비로그인 판단한다 -->
+<div th:fragment="top">
+    <div class="d-flex justify-content-start">
+        <div th:replace="/fragments/top.html ::logo"></div>
+        <div th:if="${loginMember==null}">
+            <div th:replace="/fragments/top.html :: non_login"></div>
+        </div>
+        <div th:if="${loginMember!=null}">
+            <div th:replace="/fragments/top.html :: login"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 로고 -->
+<div th:fragment="logo">
+    <img src="/img/logo.png" class="img-fluid" alt="Responsive image"></img>
+    <p>오늘의 술상
+    <p>
+</div>
+
+<!-- 비로그인 시 -->
+<div th:fragment="non_login">
+    <button th:onclick="|location.href='@{/user/login/}'|" class="btn-primary"> 로그인
+    </button>
+</div>
+
+<!-- 로그인 했을 경우 -->
+<div th:fragment="login">
+    <div th:text="|'${loginMember.nickname}'님 오늘도 한 잔 하시나요!|"></div>
+</div>
+
+<!-- 네비게이션 바-->
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/board/list}">술상</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">추천 술상</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

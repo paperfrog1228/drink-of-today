@@ -1,7 +1,6 @@
 package paperfrog.dot.boardservice.web;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +39,8 @@ public class BoardController {
         return "board/view/board";
     }
     @GetMapping("/write")
-    public String write(){
+    public String write(Model model){
+        model.addAttribute("board",new Board());
         return "board/write";
     }
     @PostMapping("/add")
@@ -50,5 +50,18 @@ public class BoardController {
         redirectAttributes.addAttribute("boardId",saveBoard.getId());
         redirectAttributes.addAttribute("status",true);
         return "redirect:/board/{boardId}";
+    }
+    //edit,update
+    @GetMapping("/{boardId}/editForm")
+    public String editForm(Model model,@PathVariable long boardId){
+        Board board=boardRepository.findById(boardId);
+        model.addAttribute("board",board);
+        return "board/editForm";
+    }
+    @PostMapping("/{boardId}/edit")
+    public String edit(@PathVariable long boardId, Board saveBoard){
+        log.debug("success edit boardId : {}",boardId);
+        boardRepository.update(boardId,saveBoard);
+        return "redirect:/board/list";
     }
 }

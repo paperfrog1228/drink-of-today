@@ -30,6 +30,11 @@ public class BoardRepository {
         List<Board> list=new ArrayList<Board>(store.values());
         return list;
     }
+    public void update(Long boardId,Board updateBoard) {
+        Board findItem = findById(boardId);
+        findItem.setContent(updateBoard.getContent());
+        findItem.setTitle(updateBoard.getTitle());
+    }
     public void clear(){
         store.clear();
     }

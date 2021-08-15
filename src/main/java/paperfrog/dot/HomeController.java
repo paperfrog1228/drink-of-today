@@ -25,11 +25,11 @@ public class HomeController {
       //비로그인(세션 없음)
       if (loginMember == null) {
          log.debug("비회원 접근 : {}",loginMember);
-        return "/Layout";
+        return "/board/list";
       }
       //로그인
       model.addAttribute(SessionConst.LOGIN_MEMBER,loginMember);
       log.debug("Login Success memberId : {} LoginId : {}",loginMember.getId(),loginMember.getLoginId());
-      return "/Layout";
+      return "/board/list";
    }
 }

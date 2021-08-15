@@ -23,12 +23,21 @@ public class BoardRepository {
         store.put(board.getId(), board);
         return board;
     }
+
     public Board findById(Long id){
         return store.get(id);
     }
     public List<Board> findAll(){
         List<Board> list=new ArrayList<Board>(store.values());
         return list;
+    }
+    public void update(Long boardId,Board updateBoard) {
+        Board findItem = findById(boardId);
+        findItem.setContent(updateBoard.getContent());
+        findItem.setTitle(updateBoard.getTitle());
+    }
+    public void delete(Long boardId){
+        store.remove(boardId);
     }
     public void clear(){
         store.clear();

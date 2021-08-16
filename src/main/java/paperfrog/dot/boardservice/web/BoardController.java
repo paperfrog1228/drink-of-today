@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,6 +19,7 @@ import paperfrog.dot.boardservice.domain.board.BoardRepository;
 import paperfrog.dot.boardservice.domain.board.UploadFile;
 import paperfrog.dot.boardservice.file.FileStore;
 import paperfrog.dot.memberservice.domain.member.Member;
+import paperfrog.dot.memberservice.domain.member.MemberSaveForm;
 import paperfrog.dot.memberservice.web.SessionConst;
 
 
@@ -73,7 +76,12 @@ public class BoardController {
         return "board/writeForm";
     }
     @PostMapping("/add")
-    public String add(@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember, BoardForm boardForm, RedirectAttributes redirectAttributes) throws IOException {
+    public String add(@Validated @ModelAttribute("board") BoardForm boardForm, BindingResult bindingResult,
+                      @SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
+                      RedirectAttributes redirectAttributes) throws IOException {
+        if(bindingResult.hasErrors()){
+            return "/board/writeForm";
+        }
         Board board=new Board();
         board.setImageFiles(fileStore.storeFiles(boardForm.getImageFiles()));
         //todo: 아 optional 고쳐줘야함 피곤

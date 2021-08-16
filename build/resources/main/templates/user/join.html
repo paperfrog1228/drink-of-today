@@ -6,6 +6,12 @@
 <div th:replace="/fragments/top.html :: nav"></div>
 <!--콘텐츠 시작-->
 <div class="container">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
     <div class="py-5 text-center">
         <h2>회원 가입</h2>
     </div>
@@ -14,17 +20,18 @@
         <div>
             <label for="loginId">로그인 ID</label>
             <input type="text" id="loginId" class="form-control" th:field="*{loginId}">
-            <div class="field-error"/>
+            <div class="field-error" th:errors="*{loginId}">로그인 ID 에러</div>
         </div>
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" class="form-control" th:field="*{password}">
-            <div class="field-error"/>
+            <div class="field-error" th:errors="*{password}">패스워드 에러</div>
+<!--            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">복합 에러 메세지</p>-->
         </div>
         <div>
-            <label for="name">이름</label>
+            <label for="name">닉네임</label>
             <input type="text" id="name" class="form-control" th:field="*{nickname}">
-            <div class="field-error"/>
+            <div class="field-error" th:errors="*{nickname}">닉네임 에러</div>
         </div>
         <hr class="my-4">
         <div class="row">
@@ -32,7 +39,7 @@
                 <button class="w-100 btn btn-primary btn-lg" type="submit">회원 가입</button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{'/'}'|"
+                <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{'/board/list'}'|"
                         type="button">취소
                 </button>
             </div>

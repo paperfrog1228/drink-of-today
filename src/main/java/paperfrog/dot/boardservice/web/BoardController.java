@@ -45,9 +45,10 @@ public class BoardController {
     }
     //read,view
     @GetMapping("/{boardId}")
-    public String board(Model model, @PathVariable long boardId){
+    public String board(Model model, @PathVariable long boardId,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
         Board board = boardRepository.findById(boardId);
         model.addAttribute("board",board);
+        model.addAttribute("loginMember",loginMember);
         return "board/view/board";
     }
     @ResponseBody

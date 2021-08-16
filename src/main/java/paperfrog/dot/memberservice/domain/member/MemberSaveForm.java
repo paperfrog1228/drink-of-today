@@ -1,6 +1,8 @@
 package paperfrog.dot.memberservice.domain.member;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
+import paperfrog.annotation.NoSpace;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -11,9 +13,11 @@ import javax.validation.constraints.Size;
 public class MemberSaveForm {
     @NotBlank
     private String nickname;
-    @Size(min=4, max=10)
+    @Size(min=4, max=12)
+    @NoSpace
     @NotBlank
     private String loginId;
+    @NoSpace
     @Size(min=6, max=12)
     @NotBlank
     private String password;

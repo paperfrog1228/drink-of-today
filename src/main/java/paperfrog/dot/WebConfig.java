@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import paperfrog.interceptor.LogInterceptor;
+import paperfrog.interceptor.LoginCheckInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -12,6 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
        registry.addInterceptor(new LogInterceptor())
                .order(1)
                .addPathPatterns("/**")
+               .excludePathPatterns("/css/**","/*.ico","/error");
+       registry.addInterceptor(new LoginCheckInterceptor())
+               .order(2)
+               .addPathPatterns("/board/write")
                .excludePathPatterns("/css/**","/*.ico","/error");
     }
 }

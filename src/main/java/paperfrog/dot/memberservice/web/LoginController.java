@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import paperfrog.dot.memberservice.domain.login.LoginService;
 import paperfrog.dot.memberservice.domain.member.Member;
 import paperfrog.dot.memberservice.web.Login.LoginForm;
@@ -24,7 +25,10 @@ public class LoginController {
     }
 
     @PostMapping("/user/login")
-    public String login(LoginForm form, HttpServletRequest request){
+    public String login(LoginForm form
+                        ,@RequestParam(defaultValue = "/") String requestURL
+                        ,HttpServletRequest request){
+
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null){
@@ -35,6 +39,6 @@ public class LoginController {
         HttpSession session=request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER,loginMember);
         log.debug("loginMember {}",loginMember);
-        return "redirect:/";
+        return "redirect:"+requestURL;
     }
 }

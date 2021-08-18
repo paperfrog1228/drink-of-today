@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import paperfrog.annotation.argumentresolver.Login;
 import paperfrog.dot.boardservice.domain.board.Board;
 import paperfrog.dot.boardservice.domain.board.BoardForm;
 import paperfrog.dot.boardservice.domain.board.BoardRepository;
@@ -40,7 +41,7 @@ public class BoardController {
         boardRepository.save(new Board("ttt","ff"));
     }
     @RequestMapping("/list")
-    public String boardList(Model model,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
+    public String boardList(Model model, @Login Member loginMember){
         List<Board> boardList=boardRepository.findAll();
         model.addAttribute("boardList",boardList);
         model.addAttribute("loginMember",loginMember);
@@ -48,7 +49,7 @@ public class BoardController {
     }
     //read,view
     @GetMapping("/{boardId}")
-    public String board(Model model, @PathVariable long boardId,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
+    public String board(Model model, @PathVariable long boardId,@Login Member loginMember){
         Board board = boardRepository.findById(boardId);
         model.addAttribute("board",board);
         model.addAttribute("loginMember",loginMember);
@@ -70,14 +71,14 @@ public class BoardController {
 //    }
     //create,write,add
     @GetMapping("/write")
-    public String writeForm(Model model,@SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember){
+    public String writeForm(Model model,@Login Member loginMember){
         model.addAttribute("board",new BoardForm());
         model.addAttribute("loginMember",loginMember);
         return "board/writeForm";
     }
     @PostMapping("/add")
     public String add(@Validated @ModelAttribute("board") BoardForm boardForm, BindingResult bindingResult,
-                      @SessionAttribute(name= SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
+                      @Login Member loginMember,
                       RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
             return "/board/writeForm";

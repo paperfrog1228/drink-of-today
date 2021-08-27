@@ -1,34 +1,35 @@
-package paperfrog.dot.memberservice.domain.member;
+package paperfrog.dot.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import paperfrog.dot.boardservice.domain.board.Board;
+import org.springframework.transaction.annotation.Transactional;
+import paperfrog.dot.domain.Member;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+
 @Repository
+@Transactional
+@RequiredArgsConstructor
 public class MemberRepository {
-    private static final Map<Long, Member> store=new ConcurrentHashMap<>();
-    private Long sequence=0L;
+    private final EntityManager em;
     public Member save(Member member){
-        member.setId(++sequence);
-        store.put(member.getId(), member);
+        em.persist(member);
         return member;
     }
     public Member findById(Long id){
-        return store.get(id);
+        return em.find(Member.class,id);
     }
     public List<Member> findAll(){
-        List<Member> list;
-        list = new ArrayList<Member>(store.values());
-        return list;
+        return em.createQuery("select m from Member m", Member.class)
+                .getResultList();
     }
     public Optional<Member> findByLoginId(String loginId){
         return findAll().stream().filter(m->m.getLoginId().equals(loginId)).findFirst();
     }
     public void clear(){
-        store.clear();
+//        store.clear();
     }
 }

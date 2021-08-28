@@ -1,4 +1,4 @@
-package paperfrog.dot.boardservice.domain.board;
+package paperfrog.dot.domain;
 
 import lombok.Getter;
 import lombok.Setter;

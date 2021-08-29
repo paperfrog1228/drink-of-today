@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,8 +17,8 @@ public class Board {
     private String date;
     private String title;
     private String content;
-    @OneToMany
-    private List<UploadFile> imageFiles;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<UploadFile> imageFiles=new ArrayList<>();
 
     public Board() {
     }

@@ -1,5 +1,6 @@
 package paperfrog.dot.web.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -24,8 +25,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/board")
+@RequiredArgsConstructor
 @Slf4j
 public class BoardController {
     private final BoardService boardService;
@@ -66,9 +67,8 @@ public class BoardController {
         if(bindingResult.hasErrors()){
             return "/board/writeForm";
         }
-        Board board=new Board();
-        Board saveBoard=boardService.save(boardForm);
-        redirectAttributes.addAttribute("boardId",saveBoard.getId());
+        Long saveBoardId=boardService.save(boardForm,loginMember);
+        redirectAttributes.addAttribute("boardId",saveBoardId);
         redirectAttributes.addAttribute("status",true);
         return "redirect:/board/{boardId}";
     }

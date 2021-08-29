@@ -17,9 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class BoardRepository {
     private final EntityManager em;
-    public Board save(Board board){
+    public Long save(Board board){
         em.persist(board);
-        return board;
+        return board.getId();
     }
 
     public Board findById(Long id){

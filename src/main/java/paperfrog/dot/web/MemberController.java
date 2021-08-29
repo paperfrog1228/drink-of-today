@@ -1,20 +1,18 @@
-package paperfrog.dot.memberservice.web;
-
+package paperfrog.dot.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import paperfrog.dot.memberservice.domain.member.Member;
-import paperfrog.dot.memberservice.domain.member.MemberRepository;
-import paperfrog.dot.memberservice.domain.member.MemberSaveForm;
+import paperfrog.dot.domain.Member;
+import paperfrog.dot.repository.MemberRepository;
+import paperfrog.dot.domain.MemberSaveForm;
+import paperfrog.dot.service.MemberService;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -24,14 +22,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
-    private final MemberRepository memberRepository;
-
+    private final MemberService memberService;
+    //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
     public void testMember(){
         Member member=new Member("test입니당");
         member.setLoginId("test");
         member.setPassword("qqq");
-        memberRepository.save(member);
+        memberService.join(member);
     }
     // 회원가입
     @GetMapping("/join")
@@ -45,17 +43,14 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "/user/join";
         }
-        Member saveMember=new Member();
-        saveMember.setLoginId(memberForm.getLoginId());
-        saveMember.setNickname(memberForm.getNickname());
-        saveMember.setPassword(memberForm.getPassword());
-        memberRepository.save(saveMember);
-        log.debug("new member : {}",saveMember);
+        Member saveMember=new Member(memberForm);
+        Long saveMemberId=memberService.join(saveMember);
+        log.debug("new member : {} member id : {}",saveMember,saveMemberId);
         return "redirect:/board/list";
     }
     @GetMapping("member_list")
     public String memberList(Model model){
-        List<Member> list=memberRepository.findAll();
+        List<Member> list=memberService.findAll();
         model.addAttribute("memberList",list);
         return "member/memberList";
     }

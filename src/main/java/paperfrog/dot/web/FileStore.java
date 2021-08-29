@@ -1,10 +1,11 @@
-package paperfrog.dot.boardservice.file;
+package paperfrog.dot.web;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import paperfrog.dot.boardservice.domain.board.UploadFile;
+import paperfrog.dot.domain.UploadFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
@@ -20,8 +22,8 @@ public class FileStore {
     public String getFullPath(String filename){
         return fileDir+filename;
     }
-    public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
-        List<UploadFile> storeFileResult=new ArrayList<>();
+    public ArrayList<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+        ArrayList<UploadFile> storeFileResult=new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if(!multipartFile.isEmpty()){
                 UploadFile uploadFile= storeFile(multipartFile);
@@ -38,7 +40,7 @@ public class FileStore {
         //서버에 저장될 떄 파일 이름 uuid 씀
         String storeFileName= createStoreFileName(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
-        log.debug("뭔데 시바{}",storeFileName);
+        log.debug("뭔데 시바 {} {}",fileDir,getFullPath(storeFileName));
         return new UploadFile(originalFilename,storeFileName);
     }
 

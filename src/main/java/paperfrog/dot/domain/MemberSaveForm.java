@@ -1,4 +1,4 @@
-package paperfrog.dot.memberservice.domain.member;
+package paperfrog.dot.domain;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;

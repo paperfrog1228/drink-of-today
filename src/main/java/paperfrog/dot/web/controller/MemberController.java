@@ -11,6 +11,7 @@ import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.service.MemberService;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.SessionConst;
+import paperfrog.dot.web.MemberValidator;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +24,14 @@ import java.util.List;
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
+
     //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
     public void testMember(){
         Member member=new Member("test입니당");
         member.setLoginId("test");
         member.setPassword("qqq");
-        memberService.join(member);
+//        memberService.join(member);
     }
     // 회원가입
     @GetMapping("/join")
@@ -37,15 +39,17 @@ public class MemberController {
         model.addAttribute("member",new MemberSaveForm());
         return "user/join";
     }
-    //todo 복합룰 하나 만들자 아이디 , 비번 같은 글자 3개이상 안되게
+    //todo validate 유지보수를 잘 처리하자..
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm,BindingResult bindingResult) {
+        Member saveMember = new Member(memberForm);
+        //진짜 최악이다 코드
+        bindingResult = memberService.join(saveMember, bindingResult);
+
+        if (bindingResult.hasErrors()) {
             return "/user/join";
         }
-        Member saveMember=new Member(memberForm);
-        Long saveMemberId=memberService.join(saveMember);
-        log.debug("new member : {} member id : {}",saveMember,saveMemberId);
+        log.debug("new member : {} member id : {}",saveMember,saveMember.getPassword());
         return "redirect:/board/list";
     }
     @GetMapping("member_list")
@@ -54,12 +58,12 @@ public class MemberController {
         model.addAttribute("memberList",list);
         return "member/memberList";
     }
-    @GetMapping("/user/login")
+    @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm){
         return "user/login";
     }
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public String login(LoginForm form
             , @RequestParam(defaultValue = "/") String requestURL
             , HttpServletRequest request){
@@ -76,4 +80,5 @@ public class MemberController {
         log.debug("loginMember {}",loginMember);
         return "redirect:"+requestURL;
     }
+
 }

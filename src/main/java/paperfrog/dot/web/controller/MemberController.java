@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
+import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.MemberService;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.SessionConst;
@@ -24,14 +26,15 @@ import java.util.List;
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
-
+    private final MemberRepository memberRepository;
     //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
     public void testMember(){
         Member member=new Member("test입니당");
-        member.setLoginId("test");
-        member.setPassword("qqq");
-//        memberService.join(member);
+        member.setLoginId("test3");
+        member.setPassword("qqqqqq");
+        member.setEmail("paperfrog@naver.com");
+        memberRepository.save(member);
     }
     // 회원가입
     @GetMapping("/join")
@@ -64,13 +67,18 @@ public class MemberController {
     @PostMapping("/login")
     public String login(LoginForm form
             , @RequestParam(defaultValue = "/") String requestURL
-            , HttpServletRequest request){
-
+            , HttpServletRequest request
+            ,RedirectAttributes redirectAttributes) {
         Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null){
             //Todo: 로그인 실패 처리
             return "/user/login";
+        }
+        if(!loginMember.isEmailAuth()){
+            redirectAttributes.addAttribute("email",loginMember.getEmail());
+            log.debug("sex1 {}",loginMember.getEmail());
+            return "redirect:/user/invalid_user";
         }
         //세션 처리
         HttpSession session=request.getSession();
@@ -78,5 +86,9 @@ public class MemberController {
         log.debug("loginMember {}",loginMember);
         return "redirect:"+requestURL;
     }
-
+    @GetMapping("invalid_user")
+    public String invalidUser(Member member){
+        log.debug("sex {} {} ",member.getEmail(),member.getLoginId());
+        return "user/invalid_user";
+    }
 }

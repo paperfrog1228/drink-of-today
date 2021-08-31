@@ -33,6 +33,16 @@
             <input type="text" id="name" class="form-control" th:field="*{nickname}">
             <div class="field-error" th:errors="*{nickname}">닉네임 에러</div>
         </div>
+        <div>
+            <label for="name">이메일</label>
+            <input type="text" id="email" class="form-control" th:field="*{email}">
+            <div class="field-error" th:errors="*{email}">이메일 에러</div>
+        </div>
+        <div>
+            <label for="name">이메일 확인</label>
+            <input type="text" id="email" class="form-control" th:field="*{emailConfirm}">
+            <div class="field-error" th:errors="*{emailConfirm}">이메일 확인 에러</div>
+        </div>
         <hr class="my-4">
         <div class="row">
             <div class="col">

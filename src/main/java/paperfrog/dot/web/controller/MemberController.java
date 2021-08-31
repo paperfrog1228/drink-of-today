@@ -77,7 +77,6 @@ public class MemberController {
         }
         if(!loginMember.isEmailAuth()){
             redirectAttributes.addAttribute("email",loginMember.getEmail());
-            log.debug("sex1 {}",loginMember.getEmail());
             return "redirect:/user/invalid_user";
         }
         //세션 처리
@@ -88,7 +87,11 @@ public class MemberController {
     }
     @GetMapping("invalid_user")
     public String invalidUser(Member member){
-        log.debug("sex {} {} ",member.getEmail(),member.getLoginId());
         return "user/invalid_user";
+    }
+    @GetMapping("confirm-email")
+    public String emailVerified(@RequestParam("token") String tokenID){
+       memberService.confirmEmail(tokenID);
+        return "/user/login";
     }
 }

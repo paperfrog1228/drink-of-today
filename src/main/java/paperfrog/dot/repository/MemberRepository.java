@@ -15,9 +15,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberRepository {
     private final EntityManager em;
-    public Member save(Member member){
+    public Long save(Member member){
         em.persist(member);
-        return member;
+        return member.getId();
     }
     public Member findById(Long id){
         return em.find(Member.class,id);
@@ -33,6 +33,9 @@ public class MemberRepository {
 //        store.clear();
     }
 
+    public void emailVerified(Long id){
+
+    }
 //    public Member findByNickname(String nickname) {
 ////        return em.createQuery("select m from Member m where", Member.class);
 //    }

@@ -42,14 +42,12 @@ public class MemberController {
     //todo validate 유지보수를 잘 처리하자..
     @PostMapping("/join")
     public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm,BindingResult bindingResult) {
-        Member saveMember = new Member(memberForm);
-        //진짜 최악이다 코드
-        bindingResult = memberService.join(saveMember, bindingResult);
 
+        //진짜 최악이다 코드
+        bindingResult = memberService.join(memberForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/user/join";
         }
-        log.debug("new member : {} member id : {}",saveMember,saveMember.getPassword());
         return "redirect:/board/list";
     }
     @GetMapping("member_list")

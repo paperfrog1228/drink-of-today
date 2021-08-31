@@ -14,10 +14,10 @@ public class Member {
     @Id @GeneratedValue
     private Long id;
     private String nickname;
-
+    private String email;
     private String loginId;
     private String password;
-
+    private boolean emailAuth;
     public Member(String nickname) {
         this.nickname = nickname;
     }
@@ -26,6 +26,7 @@ public class Member {
         this.loginId=memberSaveForm.getLoginId();
         this.nickname=memberSaveForm.getNickname();
         this.password=memberSaveForm.getPassword();
+        this.email=memberSaveForm.getEmail();
     }
     public Member() {
 

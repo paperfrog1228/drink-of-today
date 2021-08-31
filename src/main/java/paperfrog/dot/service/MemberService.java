@@ -21,11 +21,12 @@ import java.util.regex.Pattern;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberValidator memberValidator;
-    public BindingResult join(Member member, BindingResult bindingResult){
-        memberValidator.validate(member,bindingResult);
+    public BindingResult join(MemberSaveForm memberForm, BindingResult bindingResult){
+        memberValidator.validate(memberForm,bindingResult);
         if(bindingResult.hasErrors())
             return bindingResult;
-        memberRepository.save(member);
+        Member saveMember = new Member(memberForm);
+        memberRepository.save(saveMember);
         return bindingResult;
     }
     public List<Member> findAll(){

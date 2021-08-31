@@ -32,4 +32,8 @@ public class MemberRepository {
     public void clear(){
 //        store.clear();
     }
+
+//    public Member findByNickname(String nickname) {
+////        return em.createQuery("select m from Member m where", Member.class);
+//    }
 }

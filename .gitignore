@@ -4,7 +4,8 @@
 ### Java ###
 # Compiled class file
 *.class
-
+build/classes/*
+Build/tmp/*
 
 ##############################
 ## IntelliJ

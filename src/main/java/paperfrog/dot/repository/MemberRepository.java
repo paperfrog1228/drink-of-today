@@ -29,14 +29,8 @@ public class MemberRepository {
     public Optional<Member> findByLoginId(String loginId){
         return findAll().stream().filter(m->m.getLoginId().equals(loginId)).findFirst();
     }
-    public void clear(){
-//        store.clear();
-    }
-
     public void emailVerified(Long id){
-
+        Member member=findById(id);
+        member.setEmailAuth(true);
     }
-//    public Member findByNickname(String nickname) {
-////        return em.createQuery("select m from Member m where", Member.class);
-//    }
 }

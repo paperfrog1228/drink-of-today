@@ -46,7 +46,7 @@ public class ConfirmationToken {
         confirmationToken.expired = false;
         return confirmationToken;
     }
-    public void useToken() {
+    public void expireToken() {
         expired = true;
     }
 }

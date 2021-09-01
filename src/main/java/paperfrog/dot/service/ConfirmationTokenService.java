@@ -6,6 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import paperfrog.dot.domain.ConfirmationToken;
 import paperfrog.dot.repository.ConfirmationTokenRepository;
+import paperfrog.dot.web.EmailConfirmException;
 
 import java.util.Optional;
 
@@ -19,12 +20,11 @@ public class ConfirmationTokenService {
     public String createEmailConfirmationToken(Long memberId, String receiverEmail){
         ConfirmationToken emailConfirmationToken = ConfirmationToken.createEmailConfirmationToken(memberId);
         confirmationTokenRepository.save(emailConfirmationToken);
-
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
         mailMessage.setTo(receiverEmail);
         mailMessage.setSubject("오늘의 술상 회원가입 이메일 인증 안내");
-        mailMessage.setText(homepageUrl+"/confirm-email?token="+emailConfirmationToken.getId());
+        mailMessage.setText(homepageUrl+"/user/confirm_email?token="+emailConfirmationToken.getId()+"\n반갑다 게이야 너도 함께해라");
         emailService.sendEmail(mailMessage);
         return emailConfirmationToken.getId();
     }
@@ -34,6 +34,14 @@ public class ConfirmationTokenService {
         return confirmationToken;
     }
     public void expireToken(String tokenId){
-        confirmationTokenRepository.expireToken(tokenId);
+        ConfirmationToken token = confirmationTokenRepository.findById(tokenId);
+        try{
+            token.isExpired();
+        }
+        catch (NullPointerException e){
+            throw e;
+        }
+//        if(token.isExpired()) throw new EmailConfirmException("이미 만료된 토큰 입니다 토큰 uuid : "+tokenId);
+        token.expireToken();
     }
 }

@@ -19,7 +19,5 @@ public class ConfirmationTokenRepository {
     public ConfirmationToken findById(String confirmationTokenId) {
         return em.find(ConfirmationToken.class,confirmationTokenId);
     }
-    public void expireToken(String tokenId){
 
-    }
 }

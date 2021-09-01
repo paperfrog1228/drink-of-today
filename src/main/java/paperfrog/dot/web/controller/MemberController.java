@@ -13,13 +13,10 @@ import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.MemberService;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.SessionConst;
-import paperfrog.dot.web.MemberValidator;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-
 @Controller
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -44,14 +41,17 @@ public class MemberController {
     }
     //todo validate 유지보수를 잘 처리하자..
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm,BindingResult bindingResult) {
+    public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm
+            ,BindingResult bindingResult
+            ,RedirectAttributes redirectAttributes) {
 
         //진짜 최악이다 코드
         bindingResult = memberService.join(memberForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/user/join";
         }
-        return "redirect:/board/list";
+        redirectAttributes.addAttribute("email",memberForm.getEmail());
+        return "redirect:/user/invalid_user";
     }
     @GetMapping("member_list")
     public String memberList(Model model){
@@ -89,9 +89,13 @@ public class MemberController {
     public String invalidUser(Member member){
         return "user/invalid_user";
     }
-    @GetMapping("confirm-email")
+    @GetMapping("success_email_auth")
+    public String successEmailAuth(Member member){
+        return "user/success_email_auth";
+    }
+    @GetMapping("confirm_email")
     public String emailVerified(@RequestParam("token") String tokenID){
-       memberService.confirmEmail(tokenID);
-        return "/user/login";
+        memberService.confirmEmail(tokenID);
+        return "redirect:/user/success_email_auth";
     }
 }

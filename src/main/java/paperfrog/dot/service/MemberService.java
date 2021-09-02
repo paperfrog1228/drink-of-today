@@ -8,11 +8,7 @@ import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.web.MemberValidator;
-
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * 회원가입, 로그인 처리를 하는 서비스입니다.
  */
@@ -31,6 +27,12 @@ public class MemberService {
         Long id=memberRepository.save(saveMember);
         confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
         return bindingResult;
+    }
+    public void join(MemberSaveForm memberForm){
+        memberValidator.validate(memberForm,null);
+        Member saveMember = new Member(memberForm);
+        Long id=memberRepository.save(saveMember);
+        confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
     }
     public List<Member> findAll(){
         return memberRepository.findAll();

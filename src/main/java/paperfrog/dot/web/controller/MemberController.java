@@ -41,11 +41,10 @@ public class MemberController {
     }
     //todo validate 유지보수를 잘 처리하자..
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm
+
+    public String join (@Validated @ModelAttribute("member") MemberSaveForm memberForm
             ,BindingResult bindingResult
             ,RedirectAttributes redirectAttributes) {
-
-        //진짜 최악이다 코드
         bindingResult = memberService.join(memberForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/user/join";
@@ -53,6 +52,7 @@ public class MemberController {
         redirectAttributes.addAttribute("email",memberForm.getEmail());
         return "redirect:/user/invalid_user";
     }
+
     @GetMapping("member_list")
     public String memberList(Model model){
         List<Member> list=memberService.findAll();
@@ -98,4 +98,5 @@ public class MemberController {
         memberService.confirmEmail(tokenID);
         return "redirect:/user/success_email_auth";
     }
+
 }

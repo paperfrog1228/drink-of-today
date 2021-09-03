@@ -3,6 +3,7 @@ package paperfrog.dot.web.controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
@@ -43,8 +44,10 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public String board(Model model, @PathVariable long boardId,@Login Member loginMember){
         Board board = boardRepository.findById(boardId);
+        val nlString = System.getProperty("line.separator").toString();
         model.addAttribute("board",board);
         model.addAttribute("loginMember",loginMember);
+        model.addAttribute("nlString",nlString);
         return "board/view/board";
     }
     @ResponseBody

@@ -24,9 +24,10 @@
 </div>
 
 <!-- 로고 -->
-<div class="mr-3 "th:fragment="logo">
+<button class="mr-3" style="padding: 0;border: none;background: none;"
+        th:fragment="logo" th:onclick="|location.href='@{/}'|" >
     <img  src=/img/logo.gif style="height: 5rem;width: auto;">
-</div>
+</button>
 
 <!-- 비로그인 시 -->
 <div class="lign-self-end ml-3"; th:fragment="non_login">

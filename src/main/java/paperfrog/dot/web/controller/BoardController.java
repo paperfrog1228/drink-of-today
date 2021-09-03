@@ -7,6 +7,7 @@ import lombok.val;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,19 +24,32 @@ import paperfrog.dot.web.FileStore;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class BoardController {
     private final BoardService boardService;
     private final FileStore fileStore;
     private final BoardRepository boardRepository;
+    @PostConstruct
+    public void test(){
+        for(int i=1;i<=10;i++) {
+            Board board = new Board();
+            board.setContent("test");
+            board.setTitle("test");
+            boardRepository.save(board);
+        }
+
+    }
     @RequestMapping("/list")
     public String boardList(Model model, @Login Member loginMember){
         List<Board> boardList=boardRepository.findAll();
+        Collections.reverse(boardList);
         model.addAttribute("boardList",boardList);
         model.addAttribute("loginMember",loginMember);
         return "board/list";

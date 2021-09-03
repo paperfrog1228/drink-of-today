@@ -15,12 +15,12 @@
         <div class="row row-cols-3 row-cols-md-4 g-4 mt-5">
             <div class="col" th:each="board:${boardList}">
                 <div class="card h-100" style="width: 20rem ">
-                    <a th:href="@{/board/{boardId}(boardId=${board.id})}" class="btn btn-fix">
-                        <img th:if="${board.imageFiles}==null" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                    <a th:href="@{/board/{boardId}(boardId=${board.id})}" class="btn btn-fix"></a>
+                        <img th:if="${#lists.size(board.imageFiles)==0}" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                              alt=""
                              style='width: 100%;height: 15rem; object-fit: cover'/>
-                        <img th:if="${board.imageFiles}!=null"
-                             th:src="|/board/images/${board.imageFiles[0].getStoreFileName()}|" alt=""
+                        <img th:if="${#lists.size(board.imageFiles)!=0}"
+                        th:src="|/board/images/${board.imageFiles[0].getStoreFileName()}|" alt=""
                              style='width: 100%; height: 15rem;  object-fit: cover'/>
                         <div>
                             <div class="card-body">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </a>
-                </div>
+                </img>
             </div>
         </div>
     </div>

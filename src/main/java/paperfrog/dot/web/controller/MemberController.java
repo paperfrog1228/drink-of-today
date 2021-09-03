@@ -27,10 +27,11 @@ public class MemberController {
     //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
     public void testMember(){
-        Member member=new Member("test입니당");
+        Member member=new Member("카피캣부점장");
         member.setLoginId("test3");
         member.setPassword("qqqqqq");
         member.setEmail("paperfrog@naver.com");
+        member.setEmailAuth(true);
         memberRepository.save(member);
     }
     // 회원가입
@@ -66,13 +67,15 @@ public class MemberController {
 
     @PostMapping("/login")
     public String login(LoginForm form
+            ,BindingResult bindingResult
             , @RequestParam(defaultValue = "/") String requestURL
             , HttpServletRequest request
             ,RedirectAttributes redirectAttributes) {
         Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
-        if(loginMember==null){
-            //Todo: 로그인 실패 처리
+        if(loginMember==null)
+            bindingResult.reject("Login");
+        if(bindingResult.hasErrors()){
             return "/user/login";
         }
         if(!loginMember.isEmailAuth()){

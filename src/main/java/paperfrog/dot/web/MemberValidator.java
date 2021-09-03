@@ -26,7 +26,6 @@ public class MemberValidator implements Validator {
     public boolean supports(Class<?> clazz) {
         return MemberSaveForm.class.isAssignableFrom(clazz);
     }
-    Set<ConstraintViolation<MemberSaveForm>> errors;
     @Override
     public void validate(Object target, Errors errors) {
         MemberSaveForm member = (MemberSaveForm) target;

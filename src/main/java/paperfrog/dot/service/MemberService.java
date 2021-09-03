@@ -7,6 +7,7 @@ import paperfrog.dot.domain.ConfirmationToken;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.repository.MemberRepository;
+import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.MemberValidator;
 import java.util.List;
 /**

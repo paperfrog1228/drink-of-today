@@ -5,6 +5,12 @@
 <div th:replace="/fragments/top.html :: nav"></div>
 <!--콘텐츠 시작-->
 <div  class="container">
+    <style>
+        .error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
     <div class="py-5 text-center">
         <h2>로그인</h2>
     </div>
@@ -16,7 +22,9 @@
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:field="*{password}" class="form-control">
-            <div class="field-error"/>
+        </div>
+        <div th:if="${#fields.hasErrors('global')}">
+            <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
         </div>
         <hr class="my-4">
         <div class="row">

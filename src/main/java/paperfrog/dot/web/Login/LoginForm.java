@@ -1,6 +1,5 @@
-package paperfrog.dot.memberservice.web.Login;
+package paperfrog.dot.web.Login;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

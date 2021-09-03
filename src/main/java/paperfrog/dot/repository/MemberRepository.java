@@ -15,9 +15,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberRepository {
     private final EntityManager em;
-    public Member save(Member member){
+    public Long save(Member member){
         em.persist(member);
-        return member;
+        return member.getId();
     }
     public Member findById(Long id){
         return em.find(Member.class,id);
@@ -29,7 +29,8 @@ public class MemberRepository {
     public Optional<Member> findByLoginId(String loginId){
         return findAll().stream().filter(m->m.getLoginId().equals(loginId)).findFirst();
     }
-    public void clear(){
-//        store.clear();
+    public void emailVerified(Long id){
+        Member member=findById(id);
+        member.setEmailAuth(true);
     }
 }

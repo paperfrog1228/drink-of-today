@@ -3,15 +3,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import paperfrog.dot.domain.ConfirmationToken;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.repository.MemberRepository;
+import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.MemberValidator;
-
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * 회원가입, 로그인 처리를 하는 서비스입니다.
  */
@@ -21,12 +19,21 @@ import java.util.regex.Pattern;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberValidator memberValidator;
-    public BindingResult join(Member member, BindingResult bindingResult){
-        memberValidator.validate(member,bindingResult);
+    private final ConfirmationTokenService confirmationTokenService;
+    public BindingResult join(MemberSaveForm memberForm, BindingResult bindingResult){
+        memberValidator.validate(memberForm,bindingResult);
         if(bindingResult.hasErrors())
             return bindingResult;
-        memberRepository.save(member);
+        Member saveMember = new Member(memberForm);
+        Long id=memberRepository.save(saveMember);
+        confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
         return bindingResult;
+    }
+    public void join(MemberSaveForm memberForm){
+        memberValidator.validate(memberForm,null);
+        Member saveMember = new Member(memberForm);
+        Long id=memberRepository.save(saveMember);
+        confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
     }
     public List<Member> findAll(){
         return memberRepository.findAll();
@@ -45,10 +52,9 @@ public class MemberService {
                 .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
     }
-    //검증을 여기서 하는게 맞을까..?
-    private Boolean patternCheck(String str){
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]*$");
-        Matcher matcher=pattern.matcher(str);
-        return matcher.find();
+    public void confirmEmail(String tokenId) {
+        ConfirmationToken findConfirmationToken = confirmationTokenService.findById(tokenId);
+        confirmationTokenService.expireToken(tokenId);
+        memberRepository.emailVerified(findConfirmationToken.getUserId());
     }
 }

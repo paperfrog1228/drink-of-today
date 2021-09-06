@@ -2,6 +2,7 @@ package paperfrog.dot.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.Board;
 import paperfrog.dot.domain.Member;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class BoardRepository {
     private final EntityManager em;
     public Long save(Board board){

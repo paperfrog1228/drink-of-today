@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <h4 class="mt-5 mb-5" th:text="${board.content}">게시물 내용</h4>
+    <h4 class="mt-5 mb-5" th:utext="${#strings.replace(board.content, nlString, '&lt;br /&gt;')}"</h4>
     <div class="d-flex justify-content-between">
         <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
         <div>

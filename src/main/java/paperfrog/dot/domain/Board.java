@@ -2,6 +2,7 @@ package paperfrog.dot.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import paperfrog.dot.web.BoardType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class Board {
     private String date;
     private String title;
     private String content;
+    @Enumerated(EnumType.STRING)
+    private BoardType dtype;
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> imageFiles=new ArrayList<>();
 
@@ -24,6 +27,7 @@ public class Board {
     }
 
     public Board(BoardForm boardForm){
+        dtype=BoardType.NORMAL;
         title= boardForm.getTitle();
         content= boardForm.getContent();
     }

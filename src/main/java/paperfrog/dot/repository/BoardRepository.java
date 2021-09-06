@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.Board;
 import paperfrog.dot.domain.Member;
+import paperfrog.dot.web.BoardType;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -36,10 +37,9 @@ public class BoardRepository {
         findItem.setContent(updateBoard.getContent());
         findItem.setTitle(updateBoard.getTitle());
     }
-//    public void delete(Long boardId){
-//        store.remove(boardId);
-//    }
-//    public void clear(){
-//        store.clear();
-//    }
+    public List<Board> findListByDtype(BoardType boardType){
+        return em.createQuery("select m from Board m where m.dtype= :boardType", Board.class)
+                .setParameter("boardType",boardType)
+                .getResultList();
+    }
 }

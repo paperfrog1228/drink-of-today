@@ -19,6 +19,7 @@ import paperfrog.dot.domain.BoardForm;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.service.BoardService;
+import paperfrog.dot.web.BoardType;
 import paperfrog.dot.web.FileStore;
 
 import javax.annotation.PostConstruct;
@@ -108,4 +109,12 @@ public class BoardController {
 //        boardRepository.delete(boardId);
 //        return "redirect:/board/list";
 //    }
+
+    @GetMapping("/notice")
+    public String noticeList(Model model){
+            List<Board> boardList=boardRepository.findListByDtype(BoardType.NOTICE);
+            Collections.reverse(boardList);
+            model.addAttribute("noticeList",boardList);
+           return "/board/notice";
+    }
 }

@@ -3,6 +3,7 @@ package paperfrog.dot.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+import paperfrog.dot.web.BoardType;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -18,5 +19,13 @@ public class BoardForm {
     @NotBlank
     @Size(min=1)
     private String content;
+    private BoardType boardType;
     private ArrayList<MultipartFile> imageFiles=new ArrayList<>();
+
+    public BoardForm() {
+    }
+
+    public BoardForm(BoardType boardType) {
+        this.boardType = boardType;
+    }
 }

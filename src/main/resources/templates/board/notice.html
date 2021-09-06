@@ -15,6 +15,9 @@
 <section class="w-75 mx-auto">
 	<!--콘텐츠 시작-->
 	<div class="container ">
+		<div th:if="${loginMember}!=null">
+			<button class="btn-success btn-lg mt-3" th:onclick="|location.href='@{/board/write/NOTICE}'|">글 쓰기</button>
+		</div>
 		<table class="table table-striped">
 			<thead class="bg-success">
 			<tr>

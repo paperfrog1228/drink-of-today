@@ -49,14 +49,14 @@ public class BoardController {
     }
     @RequestMapping("/list")
     public String boardList(Model model, @Login Member loginMember){
-        List<Board> boardList=boardRepository.findAll();
+        List<Board> boardList=boardRepository.findListByDtype(BoardType.NORMAL);
         Collections.reverse(boardList);
         model.addAttribute("boardList",boardList);
         model.addAttribute("loginMember",loginMember);
         return "board/list";
     }
     //read,view
-    @GetMapping("/{boardId}")
+    @GetMapping("/{boardType}/{boardId}")
     public String board(Model model, @PathVariable long boardId,@Login Member loginMember){
         Board board = boardRepository.findById(boardId);
         val nlString = System.getProperty("line.separator").toString();
@@ -65,6 +65,14 @@ public class BoardController {
         model.addAttribute("nlString",nlString);
         return "board/view/board";
     }
+    @GetMapping("/notice")
+    public String noticeList(Model model,@Login Member loginMember){
+        List<Board> boardList=boardRepository.findListByDtype(BoardType.NOTICE);
+        Collections.reverse(boardList);
+        model.addAttribute("noticeList",boardList);
+        model.addAttribute("loginMember",loginMember);
+        return "/board/notice";
+    }
     @ResponseBody
     @GetMapping("/images/{filename}")
     public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
@@ -72,23 +80,30 @@ public class BoardController {
     }
 
     //create,write,add
-    @GetMapping("/write")
-    public String writeForm(Model model,@Login Member loginMember){
-        model.addAttribute("board",new BoardForm());
+    @GetMapping("/write/{boardType}")
+    public String writeForm(@PathVariable BoardType boardType, Model model,@Login Member loginMember){
+        BoardForm form = new BoardForm(boardType);
+        model.addAttribute("board",form);
         model.addAttribute("loginMember",loginMember);
         return "board/writeForm";
     }
-    @PostMapping("/add")
-    public String add(@Validated @ModelAttribute("board") BoardForm boardForm, BindingResult bindingResult,
-                      @Login Member loginMember,
-                      RedirectAttributes redirectAttributes) throws IOException {
+    @PostMapping("/add/{boardType}")
+    public String add(@PathVariable BoardType boardType
+            ,@Validated @ModelAttribute("board") BoardForm boardForm
+            ,BindingResult bindingResult
+            ,@Login Member loginMember
+            ,RedirectAttributes redirectAttributes) throws IOException {
+
         if(bindingResult.hasErrors()){
             return "/board/writeForm";
         }
+
         Long saveBoardId=boardService.save(boardForm,loginMember);
         redirectAttributes.addAttribute("boardId",saveBoardId);
         redirectAttributes.addAttribute("status",true);
-        return "redirect:/board/{boardId}";
+        redirectAttributes.addAttribute("boardType",boardType);
+        return "redirect:/board/{boardType}/{boardId}";
+//        return "redirect:/list";
     }
     //edit,update
     @GetMapping("/{boardId}/editForm")
@@ -110,11 +125,6 @@ public class BoardController {
 //        return "redirect:/board/list";
 //    }
 
-    @GetMapping("/notice")
-    public String noticeList(Model model){
-            List<Board> boardList=boardRepository.findListByDtype(BoardType.NOTICE);
-            Collections.reverse(boardList);
-            model.addAttribute("noticeList",boardList);
-           return "/board/notice";
-    }
+
+
 }

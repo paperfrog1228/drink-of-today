@@ -17,17 +17,17 @@ public class Board {
     private String writer;
     private String date;
     private String title;
-    private String content;
     @Enumerated(EnumType.STRING)
     private BoardType dtype;
+    private String content;
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> imageFiles=new ArrayList<>();
 
     public Board() {
-    }
-
-    public Board(BoardForm boardForm){
         dtype=BoardType.NORMAL;
+    }
+    public Board(BoardForm boardForm){
+        dtype=boardForm.getBoardType();
         title= boardForm.getTitle();
         content= boardForm.getContent();
     }

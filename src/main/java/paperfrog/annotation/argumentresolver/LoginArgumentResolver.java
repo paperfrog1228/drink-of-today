@@ -6,9 +6,8 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import org.springframework.web.servlet.HandlerInterceptor;
-import paperfrog.dot.memberservice.domain.member.Member;
-import paperfrog.dot.memberservice.web.SessionConst;
+import paperfrog.dot.domain.Member;
+import paperfrog.dot.web.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -37,7 +37,7 @@ public class BoardService {
 
     private String getNowDate(){
         LocalDateTime now=LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.M.d hh:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy.M.d hh:mm");
         return now.format(dateTimeFormatter);
     }
 }

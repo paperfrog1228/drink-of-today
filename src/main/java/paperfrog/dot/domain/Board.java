@@ -2,7 +2,6 @@ package paperfrog.dot.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import paperfrog.dot.web.BoardType;
 
 import javax.persistence.*;
 import java.util.ArrayList;

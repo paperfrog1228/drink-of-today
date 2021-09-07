@@ -4,17 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.Board;
-import paperfrog.dot.domain.Member;
-import paperfrog.dot.web.BoardType;
+import paperfrog.dot.domain.BoardType;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 @Repository
 @RequiredArgsConstructor
 @Transactional

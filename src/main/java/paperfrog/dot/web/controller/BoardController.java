@@ -1,6 +1,5 @@
 package paperfrog.dot.web.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -19,7 +18,7 @@ import paperfrog.dot.domain.BoardForm;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.service.BoardService;
-import paperfrog.dot.web.BoardType;
+import paperfrog.dot.domain.BoardType;
 import paperfrog.dot.web.FileStore;
 
 import javax.annotation.PostConstruct;
@@ -45,6 +44,11 @@ public class BoardController {
             board.setTitle("test");
             boardRepository.save(board);
         }
+        Board board = new Board();
+        board.setDtype(BoardType.NOTICE);
+        board.setContent("test");
+        board.setTitle("test");
+        boardRepository.save(board);
 
     }
     @RequestMapping("/list")
@@ -71,7 +75,7 @@ public class BoardController {
         Collections.reverse(boardList);
         model.addAttribute("noticeList",boardList);
         model.addAttribute("loginMember",loginMember);
-        return "/board/notice";
+        return "board/notice_list";
     }
     @ResponseBody
     @GetMapping("/images/{filename}")

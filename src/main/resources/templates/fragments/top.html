@@ -11,9 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <style>
-  .navbar-text {
-        color: rgba(255,255,255,.8);
-    }
+  .font-nav{
+      font-size: 20px;font-family: 'Do Hyeon', sans-serif;
+      color: whitesmoke;
+  }
 </style>
     <div class="row justify-content-start">
         <div class="col" th:insert="/fragments/top.html ::logo"></div>
@@ -41,43 +42,21 @@
 </div>
 
 <!-- 네비게이션 바-->
-<nav th:fragment="nav" class="navbar navbar-expand-sm navbar-expand-md navbar-expand-lg navbar-light bg-success" style="height: 50px">
+<nav th:fragment="nav" class="navbar navbar-dark navbar-expand-sm navbar-expand-md navbar-expand-lg navbar-light bg-success" style="height: 50px">
     <div class="container">
-<!--        <a class="navbar-brand" href="#">Nabvar</a>-->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse w-75" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a style="color: aliceblue;font-size: 20px;font-family: 'Do Hyeon', sans-serif;" class="nav-link active" aria-current="page" th:href="@{/board/list}">술상</a>
+                    <a class="nav-link active font-nav" aria-current="page" th:href="@{/board/list}">술상</a>
                 </li>
-                <li class="nav-item">
-                    <a style="color: aliceblue;font-size: 20px;font-family: 'Do Hyeon', sans-serif;" class="nav-link ml-3" href="#">추천 술상</a>
+                <li class="nav-item ml-3">
+                    <a class="nav-link font-nav " th:href="@{/board/notice}">공지사항</a>
                 </li>
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"-->
-<!--                       data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        Dropdown-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                        <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<!--                        <li>-->
-<!--                            <hr class="dropdown-divider">-->
-<!--                        </li>-->
-<!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-<!--                </li>-->
             </ul>
-<!--            <form class="d-flex">-->
-<!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                <button class="btn btn-outline-success" type="submit">Search</button>-->
-<!--            </form>-->
         </div>
     </div>
 </nav>

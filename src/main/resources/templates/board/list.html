@@ -10,32 +10,29 @@
     <!--콘텐츠 시작-->
     <div class="container ">
         <div th:if="${loginMember}!=null">
-            <button class="btn-success btn-lg mt-3" th:onclick="|location.href='@{/board/write}'|">글 쓰기</button>
+            <button class="btn-success btn-lg mt-3" th:onclick="|location.href='@{/board/write/NORMAL}'|">글 쓰기</button>
         </div>
         <div class="row row-cols-3 row-cols-md-4 g-4 mt-5">
             <div class="col" th:each="board:${boardList}">
                 <div class="card h-100" style="width: 15rem ">
-                    <a th:href="@{/board/{boardId}(boardId=${board.id})}" class="btn btn-fix"></a>
-                    <img th:if="${#lists.size(board.imageFiles)==0}"
-                         src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                         alt=""
-                         style='width: 100%;height: 15rem; object-fit: cover'/>
-                    <img th:if="${#lists.size(board.imageFiles)!=0}"
-                         th:src="|/board/images/${board.imageFiles[0].getStoreFileName()}|" alt=""
-                         style='width: 100%; height: 15rem;  object-fit: cover'/>
-                    <div>
-                        <div class="card-body">
-                            <h5 class="card-title" style=" -webkit-line-clamp: 2;
+                    <a th:href="@{/board/NORMAL/{boardId}(boardId=${board.id})}" class="btn btn-fix">
+                        <img th:if="${#lists.size(board.imageFiles)==0}"
+                             src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                             alt=""
+                             style='width: 100%;height: 15rem; object-fit: cover'/>
+                        <img th:if="${#lists.size(board.imageFiles)!=0}"
+                             th:src="|/board/images/${board.imageFiles[0].getStoreFileName()}|" alt=""
+                             style='width: 100%; height: 15rem;  object-fit: cover'/>
+                        <div class="card-body text-left" style="text-align: left;">
+                            <h5 class="card-title " style=" -webkit-line-clamp: 2;
                             display: -webkit-box;
                             -webkit-box-orient: vertical;
                             overflow: hidden;"
                                 th:text="${board.title}">글 제목</h5>
                             <h6 class="card-text text-truncate" th:text="${board.writer}">글쓴이</h6>
-                            <h6 class="card-text" th:text="${board.date}">날짜</h6>
+                            <h6 class="card-text " th:text="${board.date}">날짜</h6>
                         </div>
-                    </div>
                     </a>
-                    </img>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@
         </style>
         <div class="row">
             <div class="col mt-5">
-                <form th:action="@{/board/add}" th:object="${board}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/board/add/}+${board.boardType}" th:object="${board}" method="post" enctype="multipart/form-data">
                     <div th:if="${loginMember}==null">
                         아니 로그인 안하고 여기 어떻게 들어온거임
                     </div>

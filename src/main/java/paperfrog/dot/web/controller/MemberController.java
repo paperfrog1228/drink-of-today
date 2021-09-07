@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.dot.domain.Member;
+import paperfrog.dot.domain.MemberGrade;
 import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.MemberService;
@@ -27,11 +28,19 @@ public class MemberController {
     //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
     public void testMember(){
-        Member member=new Member("카피캣부점장");
+        Member member=new Member("운영자");
+        member.setLoginId("paperfrog");
+        member.setPassword("122812gg!");
+        member.setEmail("paperfrog@naver.com");
+        member.setEmailAuth(true);
+        member.setMemberGrade(MemberGrade.MANAGER);
+        memberRepository.save(member);
+        member=new Member("카피캣부점장");
         member.setLoginId("test3");
         member.setPassword("qqqqqq");
         member.setEmail("paperfrog@naver.com");
         member.setEmailAuth(true);
+        member.setMemberGrade(MemberGrade.NORMAL);
         memberRepository.save(member);
     }
     // 회원가입

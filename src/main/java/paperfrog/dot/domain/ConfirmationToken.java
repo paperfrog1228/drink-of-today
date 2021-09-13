@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Getter
@@ -24,7 +25,8 @@ public class ConfirmationToken {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private String id;
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     private LocalDateTime expirationDate;
 

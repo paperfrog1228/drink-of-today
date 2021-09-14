@@ -1,3 +1,6 @@
+# 프로젝트 링크
+drinkoftoday.shop
+
 # 프로젝트 소개
 
 ## 개발 목적

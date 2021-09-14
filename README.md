@@ -1,5 +1,5 @@
 # 프로젝트 링크
-drinkoftoday.shop
+http://drinkoftoday.shop
 
 # 프로젝트 소개
 

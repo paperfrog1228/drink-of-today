@@ -5,8 +5,8 @@
 <div th:replace="fragments/top.html :: top"></div>
 <div th:replace="fragments/top.html :: nav"></div>
 <!--콘텐츠 시작-->
-<div class="container d-flex p-5 mx-auto w-50">
-    <div>
+<div class="container  p-5 w-50 mx-auto">
+    <div style="float : left">
         <p>죄송합니다.</p>
         <p>요청하신 페이지를 찾을 수 없습니다.</p>
         <p>방문하시려는 페이지의 주소가</p>
@@ -19,10 +19,11 @@
         <p>감사합니다.</p>
         <a style="color: blue" th:onclick="|location.href='@{'/'}'|"><U>홈으로 돌아가기</U></a>
     </div>
-    <div><img src=/img/error.jpeg></div>
+    <div style="float:right"><img style="width: 250px" src=/img/error.jpeg></div>
+    <div style="clear: both"></div>
 </div>
 <!--콘텐츠 끝-->
-<footer th:replace="fragments/footer.html :: footer"> 레이아웃 푸터
+<footer  th:replace="fragments/footer.html :: footer"> 레이아웃 푸터
 </footer>
 </body>
 </html>

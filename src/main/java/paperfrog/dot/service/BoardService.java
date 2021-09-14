@@ -12,7 +12,10 @@ import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.web.FileStore;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +39,8 @@ public class BoardService {
     }
 
     private String getNowDate(){
-        LocalDateTime now=LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy.M.d hh:mm");
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy.M.d HH:mm");
         return now.format(dateTimeFormatter);
     }
 }

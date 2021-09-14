@@ -26,7 +26,7 @@ public class ConfirmationTokenService {
         mailMessage.setSubject("오늘의 술상 회원가입 이메일 인증 안내");
         mailMessage.setText(homepageUrl+"/user/confirm_email?token="+emailConfirmationToken.getId()+"\n링크로 접속해 인증을 완료해주세요");
         emailService.sendEmail(mailMessage);
-        return emailConfirmationToken.getId();
+        return emailConfirmationToken.getId().toString();
     }
 
     public ConfirmationToken findById(String confirmationTokenId){

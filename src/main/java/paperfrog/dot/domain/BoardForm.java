@@ -17,7 +17,7 @@ public class BoardForm {
     @NotBlank
     @Size(min=1)
     private String content;
-    private BoardType boardType;
+    public BoardType boardType;
     private ArrayList<MultipartFile> imageFiles=new ArrayList<>();
 
     public BoardForm() {

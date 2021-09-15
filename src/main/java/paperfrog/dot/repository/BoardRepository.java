@@ -36,4 +36,8 @@ public class BoardRepository {
                 .setParameter("boardType",boardType)
                 .getResultList();
     }
+    public boolean delete(Board board){
+        em.remove(board);
+        return true;
+    }
 }

@@ -1,13 +1,11 @@
 package paperfrog.dot.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import paperfrog.dot.domain.Board;
-import paperfrog.dot.domain.BoardForm;
-import paperfrog.dot.domain.Member;
-import paperfrog.dot.domain.UploadFile;
+import paperfrog.dot.domain.*;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.web.FileStore;
 
@@ -21,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class BoardService {
@@ -33,7 +32,16 @@ public class BoardService {
         saveBoard.setImageFiles(getImageFiles(boardForm));
         return boardRepository.save(saveBoard);
     }
+    public boolean delete(Long id,Member member){
+        Board deleteBoard=boardRepository.findById(id);
+        if(deleteBoard==null) return false;
+        if(!deleteBoard.getWriter().equals(member.getNickname())&&member.getMemberGrade()!= MemberGrade.MANAGER) {
+            return false;
+        }
 
+        boardRepository.delete(deleteBoard);
+        return true;
+    }
     private ArrayList<UploadFile> getImageFiles(BoardForm boardForm) throws IOException {
         return fileStore.storeFiles(boardForm.getImageFiles());
     }

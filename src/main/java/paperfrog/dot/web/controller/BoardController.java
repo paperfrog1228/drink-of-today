@@ -22,6 +22,7 @@ import paperfrog.dot.domain.BoardType;
 import paperfrog.dot.web.FileStore;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -112,11 +113,12 @@ public class BoardController {
         return "redirect:/board/list";
     }
     //delete
-//    @GetMapping("/{boardId}/delete")
-//    public String delete(@PathVariable long boardId){
-//        boardRepository.delete(boardId);
-//        return "redirect:/board/list";
-//    }
+    @GetMapping("/{boardId}/delete")
+    public String delete(@PathVariable long boardId,@Login Member loginMember){
+        boardService.delete(boardId,loginMember);
+
+        return "redirect:/board/list";
+    }
 
 
 

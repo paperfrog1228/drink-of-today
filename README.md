@@ -49,7 +49,7 @@ http://drinkoftoday.shop
 ![board_read](https://user-images.githubusercontent.com/11247319/133475115-7d4470c5-b07a-4858-b2fe-749af51fa83b.gif)
 
 ### 작성 제한(인터셉터)
-> 미로그인 시 글 쓰기 버튼을 화면에 노출하지 않지시 글 쓰로 페이지로 url을 통해 접근시 인터셉터를 이용해 제한하고 로그인 페이지로 이동시킵니다.
+> 미로그인 시 글 쓰기 버튼을 화면에 노출하지 않 글 쓰기 페이지로 url을 통해 접근시 인터셉터를 이용해 제한하고 로그인 페이지로 이동시킵니다.
 
 ![intercept](https://user-images.githubusercontent.com/11247319/133476808-eaa84b15-d9e4-4707-b587-ab0c4cff24b5.gif)
 
@@ -94,7 +94,7 @@ uuid 기본 키를 String으로 설정 시 Specified key was too long; max key l
 #### 문제 환경
 - 이메일 인증 토큰 db에서 기본 키 값을 uuid로 설정하였다.
 - ORM에서 객체는 String, DB는 varchar(255)로 저장하였다.
-- 로컬 개발 환경(h2 사용)에서는 이상없이 동작한다기
+- 로컬 개발 환경(h2 사용)에서는 이상없이 동작한다.
 #### 문제 접근
 1. 오류 로그 확인 (키가 너무 길다. 최대 키 값은 767byte다.)
 - utf8은 3바이트이기 때문에 varchar(255)는 최대 값을 넘지 않는다.(3 * 255 = 765)

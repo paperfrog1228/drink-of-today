@@ -1,12 +1,10 @@
 package paperfrog.dot;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import paperfrog.dot.web.EncryptManager;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.security.NoSuchAlgorithmException;
 
 @SpringBootApplication
 public class DrinkOfTodayApplication {

@@ -7,8 +7,11 @@ import paperfrog.dot.domain.ConfirmationToken;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.repository.MemberRepository;
+import paperfrog.dot.web.EncryptManager;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.MemberValidator;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 /**
  * 회원가입, 로그인 처리를 하는 서비스입니다.
@@ -20,10 +23,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberValidator memberValidator;
     private final ConfirmationTokenService confirmationTokenService;
-    public BindingResult join(MemberSaveForm memberForm, BindingResult bindingResult){
+    private final EncryptManager encryptManager;
+    public BindingResult join(MemberSaveForm memberForm, BindingResult bindingResult) throws NoSuchAlgorithmException {
         memberValidator.validate(memberForm,bindingResult);
         if(bindingResult.hasErrors())
             return bindingResult;
+        memberForm.setPassword(encryptPassword(memberForm.getPassword()));
         Member saveMember = new Member(memberForm);
         Long id=memberRepository.save(saveMember);
         confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
@@ -56,5 +61,8 @@ public class MemberService {
         ConfirmationToken findConfirmationToken = confirmationTokenService.findById(tokenId);
         confirmationTokenService.expireToken(tokenId);
         memberRepository.emailVerified(findConfirmationToken.getUserId());
+    }
+    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+        return encryptManager.encrypt(password);
     }
 }

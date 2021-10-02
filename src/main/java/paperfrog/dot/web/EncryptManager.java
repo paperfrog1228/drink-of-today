@@ -7,9 +7,9 @@ import java.security.NoSuchAlgorithmException;
 @Component
 public class EncryptManager {
     @Value("${encrypt.salt}")
-    String salt="";
+    String salt="test";
     @Value("${encrypt.iteration}")
-    int iteration=;
+    int iteration=10;
     public String encrypt(String text) throws NoSuchAlgorithmException {
         byte[] plain=addSalt(text,salt);
         return bytesToHex(iteratorDigest(plain));

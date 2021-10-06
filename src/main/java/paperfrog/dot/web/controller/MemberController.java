@@ -72,7 +72,7 @@ public class MemberController {
             ,BindingResult bindingResult
             , @RequestParam(defaultValue = "/") String requestURL
             , HttpServletRequest request
-            ,RedirectAttributes redirectAttributes) {
+            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
         Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null)

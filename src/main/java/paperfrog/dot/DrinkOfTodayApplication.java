@@ -9,8 +9,6 @@ import java.security.NoSuchAlgorithmException;
 @SpringBootApplication
 public class DrinkOfTodayApplication {
 	public static void main(String[] args) throws NoSuchAlgorithmException {
-		EncryptManager encryptManager=new EncryptManager();
-		encryptManager.encrypt("test");
-//		SpringApplication.run(DrinkOfTodayApplication.class, args);
+		SpringApplication.run(DrinkOfTodayApplication.class, args);
 	}
 }

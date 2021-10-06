@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import paperfrog.dot.domain.Member;
+import paperfrog.dot.repository.MemberRepository;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,6 +13,32 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 class EncryptTest {
+    EncryptManager encryptManager=new EncryptManager();
+    @Test
+    @DisplayName("전역 객체 - 동일성 확인")
+    public void static_same_hashing() throws NoSuchAlgorithmException {
+        //given
+        String password="p@ssw@rd!23";
+        //when
+        String expect=encryptManager.encrypt(password);
+        String result=encryptManager.encrypt(password);
+        //then
+        Assertions.assertThat(result).isEqualTo(expect);
+    }
+    @Test
+    @DisplayName("객체 저장 확인")
+    public void get_member_password() throws NoSuchAlgorithmException {
+        //given
+        Member testMember=new Member();
+        String loginId="loginID";
+        String password="ttest!#42s";
+        //when
+        testMember.setLoginId(loginId);
+        testMember.setPassword(encryptManager.encrypt(password));
+        String expert=encryptManager.encrypt(password);
+        //then
+        Assertions.assertThat(expert).isEqualTo(testMember.getPassword());
+    }
     @Test
     @DisplayName("솔팅 확인")
     public void add_salting() throws NoSuchAlgorithmException {

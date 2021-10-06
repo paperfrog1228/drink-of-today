@@ -49,12 +49,11 @@ public class MemberService {
 //    public Member findByNickname(String nickname){
 //        return  memberRepository.findByNickname(nickname);
 //    }
-    /**
-     로그인 실패 -> return null
-     */
-    public Member login(String loginId,String password){
+    public Member login(String loginId,String password) throws NoSuchAlgorithmException {
+        password=encryptManager.encrypt(password);
+        String finalPassword = password;
         return  memberRepository.findByLoginId(loginId)
-                .filter(m -> m.getPassword().equals(password))
+                .filter(m -> m.getPassword().equals(finalPassword))
                 .orElse(null);
     }
     public void confirmEmail(String tokenId) {

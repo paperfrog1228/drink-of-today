@@ -12,6 +12,7 @@ public class EncryptManager {
     int iteration;
     public String encrypt(String text) throws NoSuchAlgorithmException {
         MessageDigest md=MessageDigest.getInstance("sha-256");
+        System.out.println("salt : "+salt+" iter : "+iteration);
         md.update(text.getBytes());
         md=addSalt(md,salt);
         md=iteratorDigest(md,iteration);

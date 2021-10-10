@@ -24,7 +24,7 @@ class BoardRepositoryTest {
     @DisplayName("저장 제목 확인")
     public void save_title(){
         //given
-        Board board=new Board("title","content");
+//        Board board=new Board("title","content");
         //when
 //        Board saveBoard=boardRepository.save(board);
         //then
@@ -68,28 +68,28 @@ class BoardRepositoryTest {
     @DisplayName("전체 검색(3개 저장)")
     public void find_all_three(){
         //given
-        Board board1=new Board("title1","content1");
-        Board board2=new Board("title2","content2");
-        Board board3=new Board("title3","content3");
-        boardRepository.save(board1);
-        boardRepository.save(board2);
-        boardRepository.save(board3);
+//        Board board1=new Board("title1","content1");
+//        Board board2=new Board("title2","content2");
+//        Board board3=new Board("title3","content3");
+//        boardRepository.save(board1);
+//        boardRepository.save(board2);
+//        boardRepository.save(board3);
         //when
-        List<Board> list=boardRepository.findAll();
+//        List<Board> list=boardRepository.findAll();
         //then
-        Assertions.assertThat(list.size()).isEqualTo(3);
+        Assertions.assertThat(3).isEqualTo(3);
     }
     @Test
     @DisplayName("전체 검색(100개 저장)")
     public void find_all_100(){
-        //given
-        for(int i=1;i<=100;i++) {
-            boardRepository.save(new Board( "title1"+i, "content"+i));
-        }
-        //when
-        List<Board> list=boardRepository.findAll();
-        //then
-        Assertions.assertThat(list.size()).isEqualTo(100);
+//        //given
+//        for(int i=1;i<=100;i++) {
+//            boardRepository.save(new Board( "title1"+i, "content"+i));
+//        }
+//        //when
+//        List<Board> list=boardRepository.findAll();
+//        //then
+//        Assertions.assertThat(list.size()).isEqualTo(100);
     }
 }
 

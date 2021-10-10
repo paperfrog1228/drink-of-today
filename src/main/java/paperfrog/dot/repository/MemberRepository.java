@@ -29,6 +29,12 @@ public class MemberRepository {
     public Optional<Member> findByLoginId(String loginId){
         return findAll().stream().filter(m->m.getLoginId().equals(loginId)).findFirst();
     }
+    public void deleteAll(){
+        List<Member> list=findAll();
+        for(int i=0;i<list.size();i++){
+            em.remove(list.get(i));
+        }
+    }
     public void emailVerified(Long id){
         Member member=findById(id);
         member.setEmailAuth(true);

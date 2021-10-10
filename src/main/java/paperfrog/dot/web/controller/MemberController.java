@@ -48,7 +48,7 @@ public class MemberController {
     public String join (@Validated @ModelAttribute("member") MemberSaveForm memberForm
             ,BindingResult bindingResult
             ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
-        bindingResult = memberService.join(memberForm, bindingResult);
+        Long id=memberService.join(memberForm);
         if (bindingResult.hasErrors()) {
             return "user/join";
         }

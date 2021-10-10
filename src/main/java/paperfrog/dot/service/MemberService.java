@@ -24,22 +24,14 @@ public class MemberService {
     private final MemberValidator memberValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EncryptManager encryptManager;
-    public BindingResult join(MemberSaveForm memberForm, BindingResult bindingResult) throws NoSuchAlgorithmException {
-        memberValidator.validate(memberForm,bindingResult);
-        if(bindingResult.hasErrors())
-            return bindingResult;
+    public Long join(MemberSaveForm memberForm) throws NoSuchAlgorithmException {
         memberForm.setPassword(encryptPassword(memberForm.getPassword()));
         Member saveMember = new Member(memberForm);
         Long id=memberRepository.save(saveMember);
         confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
-        return bindingResult;
+        return id;
     }
-    public void join(MemberSaveForm memberForm){
-        memberValidator.validate(memberForm,null);
-        Member saveMember = new Member(memberForm);
-        Long id=memberRepository.save(saveMember);
-        confirmationTokenService.createEmailConfirmationToken(id,saveMember.getEmail());
-    }
+
     public List<Member> findAll(){
         return memberRepository.findAll();
     }

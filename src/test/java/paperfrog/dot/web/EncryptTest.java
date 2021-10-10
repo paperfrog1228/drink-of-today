@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-class EncryptTest {
+public class EncryptTest {
     EncryptManager encryptManager=new EncryptManager();
     @Test
     @DisplayName("전역 객체 - 동일성 확인")

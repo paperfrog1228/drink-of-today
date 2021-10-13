@@ -19,6 +19,10 @@ public class MemberRepository {
         em.persist(member);
         return member.getId();
     }
+    public Long merge(Member member){
+        em.merge(member);
+        return member.getId();
+    }
     public Member findById(Long id){
         return em.find(Member.class,id);
     }
@@ -35,6 +39,7 @@ public class MemberRepository {
             em.remove(list.get(i));
         }
     }
+
     public void emailVerified(Long id){
         Member member=findById(id);
         member.setEmailAuth(true);

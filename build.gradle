@@ -35,7 +35,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.json:json:20210307'
-
+	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
 }
 
 test {

@@ -2,6 +2,7 @@ package paperfrog.dot.etc;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HostnameVerifier;
@@ -25,7 +26,8 @@ public class LineAPI {
     private BufferedReader reader = null;
     byte[] input = {};
     int responseCode;
-
+    @Value("${line.token}")
+    private String token;
 
     public void sendRequest(String title) throws IOException {
         StringBuilder line = new StringBuilder();
@@ -51,7 +53,7 @@ public class LineAPI {
             jsonObject2.put("to","U1d337ffa051c7bff4d2248e67955c795");
             input=jsonObject2.toString().getBytes();
             System.out.println(jsonObject2.toString());
-            httpsConn.setRequestProperty("Authorization","Bearer 0KlqZ3N0ZVmjrov3LWdakmpankjW3N/I8M60FJpM/5kUKcHA/PU/hKqdCyjX/T9HpikvT19kTkjHvV6mIoXAJBxLR47pogi7oNV1bbM2C0aFCe6FkQU4ejlPsHWHlqUqMyEHCfjgEoQ65SxKMSZ3IQdB04t89/1O/w1cDnyilFU=");
+            httpsConn.setRequestProperty("Authorization","Bearer "+token);
             httpsConn.addRequestProperty("Content-Type","application/json");
             httpsConn.setRequestMethod("POST");
             httpsConn.setDoInput(true);

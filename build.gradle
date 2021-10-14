@@ -27,16 +27,30 @@ dependencies {
 	implementation group : 'org.javassist',name : 'javassist', version:'3.15.0-GA'
     implementation 'org.jetbrains:annotations:20.1.0'
 	implementation 'org.jetbrains:annotations:20.1.0'
-	compileOnly 'org.projectlombok:lombok'
+    implementation 'junit:junit:4.13.1'
+    compileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.json:json:20210307'
+	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
 }
 
 test {
-	useJUnitPlatform()
+
+	useJUnitPlatform {
+			excludeTags('IntegrationTest')
+	}
+	task integrationTest(type: Test, group: 'verification') {
+		useJUnitPlatform {
+			includeTags('IntegrationTest')
+		}
+	}
+	task wholeTest(type: Test, group: 'verification') {
+		useJUnitPlatform { }
+	}
 }
 bootRun {
 	String activeProfile = System.properties['spring.profiles.active']

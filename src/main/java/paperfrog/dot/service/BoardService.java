@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.*;
+import paperfrog.dot.etc.LineAPI;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.web.FileStore;
 
@@ -25,12 +26,21 @@ import java.util.List;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final FileStore fileStore;
+    private final LineAPI lineAPI;
     public Long save(BoardForm boardForm, Member member) throws IOException {
         Board saveBoard=new Board(boardForm);
         saveBoard.setWriter(member.getNickname());
         saveBoard.setDate(getNowDate());
         saveBoard.setImageFiles(getImageFiles(boardForm));
-        return boardRepository.save(saveBoard);
+        Long id=0L;
+        try{
+            id=boardRepository.save(saveBoard);
+        }
+        catch (Exception e){
+            log.error("게시글 저장 에러");
+        }
+        lineAPI.sendRequest(saveBoard.getTitle());
+        return id;
     }
     public boolean delete(Long id,Member member){
         Board deleteBoard=boardRepository.findById(id);

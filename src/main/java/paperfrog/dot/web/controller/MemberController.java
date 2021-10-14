@@ -17,6 +17,8 @@ import paperfrog.dot.web.SessionConst;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 @Controller
 @RequestMapping("/user")
@@ -46,8 +48,8 @@ public class MemberController {
 
     public String join (@Validated @ModelAttribute("member") MemberSaveForm memberForm
             ,BindingResult bindingResult
-            ,RedirectAttributes redirectAttributes) {
-        bindingResult = memberService.join(memberForm, bindingResult);
+            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
+        Long id=memberService.join(memberForm);
         if (bindingResult.hasErrors()) {
             return "user/join";
         }
@@ -71,7 +73,7 @@ public class MemberController {
             ,BindingResult bindingResult
             , @RequestParam(defaultValue = "/") String requestURL
             , HttpServletRequest request
-            ,RedirectAttributes redirectAttributes) {
+            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException, IOException {
         Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null)

@@ -17,6 +17,7 @@ import paperfrog.dot.web.SessionConst;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 @Controller
@@ -72,7 +73,7 @@ public class MemberController {
             ,BindingResult bindingResult
             , @RequestParam(defaultValue = "/") String requestURL
             , HttpServletRequest request
-            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
+            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException, IOException {
         Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
         log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
         if(loginMember==null)

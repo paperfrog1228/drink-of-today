@@ -6,11 +6,13 @@ import org.springframework.validation.BindingResult;
 import paperfrog.dot.domain.ConfirmationToken;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
+import paperfrog.dot.etc.LineAPI;
 import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.web.EncryptManager;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.MemberValidator;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 /**
@@ -24,6 +26,7 @@ public class MemberService {
     private final MemberValidator memberValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EncryptManager encryptManager;
+    private final LineAPI lineAPI;
     public Long join(MemberSaveForm memberForm) throws NoSuchAlgorithmException {
         memberForm.setPassword(encryptPassword(memberForm.getPassword()));
         Member saveMember = new Member(memberForm);
@@ -41,9 +44,11 @@ public class MemberService {
 //    public Member findByNickname(String nickname){
 //        return  memberRepository.findByNickname(nickname);
 //    }
-    public Member login(String loginId,String password) throws NoSuchAlgorithmException {
+    public Member login(String loginId,String password) throws NoSuchAlgorithmException, IOException {
         password=encryptManager.encrypt(password);
         String finalPassword = password;
+        if(loginId=="guest")
+            lineAPI.sendRequest("게스트 로그인");
         return  memberRepository.findByLoginId(loginId)
                 .filter(m -> m.getPassword().equals(finalPassword))
                 .orElse(null);

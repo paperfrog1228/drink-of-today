@@ -12,6 +12,7 @@ import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.MemberService;
 import paperfrog.dot.web.EncryptManager;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 public class memberTest extends IntegrationTest {
@@ -38,7 +39,7 @@ public class memberTest extends IntegrationTest {
     }
     @Test
     @DisplayName("로그인 테스트")
-    public void login_test() throws NoSuchAlgorithmException {
+    public void login_test() throws NoSuchAlgorithmException, IOException {
         //given
         Long expectId=memberService.join(memberSaveForm);
         //when
@@ -48,7 +49,7 @@ public class memberTest extends IntegrationTest {
     }
     @Test
     @DisplayName("패스워드 암호화 테스트")
-    public void encrypt_test() throws NoSuchAlgorithmException {
+    public void encrypt_test() throws NoSuchAlgorithmException, IOException {
         //given
         String expectPassword=encryptManager.encrypt(password);
         memberService.join(memberSaveForm);

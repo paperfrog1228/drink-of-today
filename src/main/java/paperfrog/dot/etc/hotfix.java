@@ -1,4 +1,4 @@
-package paperfrog.dot;
+package paperfrog.dot.etc;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

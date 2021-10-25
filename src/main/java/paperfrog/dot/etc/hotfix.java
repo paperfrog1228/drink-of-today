@@ -26,15 +26,15 @@ public class hotfix {
     비밀번호 암호화 적용 후
     기존에 있는 비밀번호 암호화 적용함
      **/
-    @PostConstruct
-    private void encryptExistingPassword() throws NoSuchAlgorithmException {
-        List<Member> list=memberRepository.findAll();
-        for(Member m:list){
-            if(m.getPassword().length()<64){
-                m.setPassword(encryptManager.encrypt(m.getPassword()));
-                memberRepository.merge(m);
-            }
-        }
-        log.info("hotfix -> 기존 패스워드 암호화 완료");
-    }
+//    @PostConstruct
+//    private void encryptExistingPassword() throws NoSuchAlgorithmException {
+//        List<Member> list=memberRepository.findAll();
+//        for(Member m:list){
+//            if(m.getPassword().length()<64){
+//                m.setPassword(encryptManager.encrypt(m.getPassword()));
+//                memberRepository.merge(m);
+//            }
+//        }
+//        log.info("hotfix -> 기존 패스워드 암호화 완료");
+//    }
 }

@@ -17,7 +17,9 @@ public class Comment {
     @Id
     @GeneratedValue
     private Long id;
-    private String writer;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Member writer;
+    private String nickname;
     private String date;
     private String text;
     @ManyToOne(cascade = CascadeType.ALL) //단방향 해도 괜찮지 않을까?

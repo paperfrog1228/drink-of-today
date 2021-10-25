@@ -1,0 +1,18 @@
+<!-- 작성란&버튼 -->
+<div th:fragment="comment-write">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/js/Comment.js"></script>
+    <div class="col justify-content-center my-1 mx-0">
+
+        <form method="POST" id="commentForm">
+            <!-- hidden 영역 -->
+            <!--        <input type="hidden" name="EMAIL" th:value="${userInform.userEmail}">-->
+            <!--        <input type="hidden" name="POST_NUM" th:value="${resultMap.POST_NUM}">-->
+                    <input type="hidden" id="writerId" name="writerId" th:value="${loginMember.id}">
+
+            <!-- 입력 영역 -->
+            <input type="text" id="content" name="CONTENT">
+            <input type="button" onclick="commentDataSend()" value="댓글작성">
+        </form>
+    </div>
+</div>

@@ -22,6 +22,5 @@ public class Comment {
     private String nickname;
     private String date;
     private String text;
-    @ManyToOne(cascade = CascadeType.ALL) //단방향 해도 괜찮지 않을까?
-    private Board board;
+    private Long boardId;
 }

@@ -22,7 +22,7 @@ public class CommentService {
     public Long save(CommentCreateDTO commentDTO, Long boardId){
         Comment comment=new Comment();
         comment.setText(commentDTO.getText());
-        comment.setBoard(boardRepository.findById(boardId));
+        comment.setBoardId(boardId);
         Member member=memberRepository.findById(commentDTO.getWriterId());
         comment.setWriter(member);
         comment.setNickname(member.getNickname());

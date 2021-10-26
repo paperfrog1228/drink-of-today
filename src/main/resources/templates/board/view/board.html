@@ -43,7 +43,9 @@
         </div>
         </div>
         <!-- 댓글 뷰 -->
+        <div id="commentTable">
         <div  th:replace="board/comment/comment-view.html :: comment-view">댓글 뷰</div>
+        </div>
         <!-- 댓글 작성란&버튼 -->
         <div th:if="${loginMember!=null}">
             <div th:replace="board/comment/comment-write.html :: comment-write">댓글 작성란</div>

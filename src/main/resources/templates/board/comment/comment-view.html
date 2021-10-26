@@ -1,17 +1,13 @@
 <!-- 댓글 목록 -->
-<div id="commentTable" th:fragment="comment-view">>
-<!--    <div th:each="comment:${commentList}">-->
-<!--        <form method="POST">-->
-<!--            <input type="hidden" id="commentNum" name="CommentNum" th:value="${comment.CO_NUM}">-->
-<!--            <div>-->
-<!--                <input type="button" class="btn p-0 btn-md" name="commentID" th:value="${comment.EMAIL}" />-->
-<!--                <small th:text="${#strings.substring(comment.TIME,0,19)}"></small>-->
-<!--            </div>-->
-<!--            <div th:text="${comment.CONTENT}"></div>-->
-<!--            <div class="text-right" th:if="${comment.EMAIL==userInform.userEmail}">-->
-<!--                <span><button type="submit" name="submit" value="update">수정</button></span>-->
-<!--                <span><button type="submit" name="submit" value="delete">삭제</button></span>-->
-<!--            </div>-->
-<!--        </form>-->
-    </div>
+<div th:fragment="comment-view">
+    <div> 시발 좀 되라!</div>
+<!--    <div id="commentTable">-->
+        <div th:each="comment:${commentList}">
+            <div th:text="${comment.text}"></div>
+            <!--        <form method="POST">-->
+            <!--                <span><button type="submit" name="submit" value="update">수정</button></span>-->
+            <!--                <span><button type="submit" name="submit" value="delete">삭제</button></span>-->
+            <!--        </form>-->
+        </div>
+<!--    </div>-->
 </div>

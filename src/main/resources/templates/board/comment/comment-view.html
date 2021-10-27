@@ -1,13 +1,19 @@
 <!-- 댓글 목록 -->
 <div th:fragment="comment-view">
-    <div> 시발 좀 되라!</div>
-<!--    <div id="commentTable">-->
+        <div class="d-flex flex-row p-1">
+            <h5 class="my-3">전체 댓글</h5>
+            <h5 class="ml-1 my-3 text-danger" th:text=" ${#lists.size(commentList)}"></h5>
+            <h5 class="ml-1 my-3">개!</h5>
+        </div>
+        <div  class="border-top border-success border-4"></div>
         <div th:each="comment:${commentList}">
-            <div th:text="${comment.text}"></div>
+            <div class="row border-bottom py-1">
+                <div class="col-lg-3 text-muted" th:text="${comment.nickname}">닉네임</div>
+                <div class="col-lg-9" th:text="${comment.text}">댓글 내용</div>
+            </div>
             <!--        <form method="POST">-->
             <!--                <span><button type="submit" name="submit" value="update">수정</button></span>-->
             <!--                <span><button type="submit" name="submit" value="delete">삭제</button></span>-->
             <!--        </form>-->
         </div>
-<!--    </div>-->
 </div>

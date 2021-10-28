@@ -9,6 +9,7 @@ function commentDataSend() {
         data: messageDTO,
         type:"POST",
     }).done(function (fragment) {
+        $("#content").val('');
         $("#commentTable").replaceWith(fragment);
     });
 }

@@ -19,7 +19,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardType dtype;
     private String content;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.MERGE ,CascadeType.PERSIST})
     private List<UploadFile> imageFiles=new ArrayList<>();
 
     public Board() {

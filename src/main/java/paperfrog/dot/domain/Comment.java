@@ -17,10 +17,12 @@ public class Comment {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     private Member writer;
     private String nickname;
     private String date;
     private String text;
     private Long boardId;
+
+
 }

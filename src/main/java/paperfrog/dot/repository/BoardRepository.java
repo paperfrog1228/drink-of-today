@@ -38,6 +38,7 @@ public class BoardRepository {
     }
     public boolean delete(Board board){
         em.remove(board);
+        em.flush();
         return true;
     }
 }

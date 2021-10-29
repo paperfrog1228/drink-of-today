@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation group : 'org.javassist',name : 'javassist', version:'3.15.0-GA'
     implementation 'org.jetbrains:annotations:20.1.0'
 	implementation 'org.jetbrains:annotations:20.1.0'

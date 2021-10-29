@@ -17,7 +17,7 @@ public class Comment {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Member writer;
     private String nickname;
     private String date;

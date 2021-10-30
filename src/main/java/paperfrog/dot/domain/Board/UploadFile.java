@@ -1,8 +1,8 @@
-package paperfrog.dot.domain;
+package paperfrog.dot.domain.Board;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
+import paperfrog.dot.domain.Board.Board;
 
 import javax.persistence.*;
 

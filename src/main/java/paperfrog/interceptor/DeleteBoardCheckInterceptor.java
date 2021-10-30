@@ -2,7 +2,7 @@ package paperfrog.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
-import paperfrog.dot.domain.Board;
+import paperfrog.dot.domain.Board.Board;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberGrade;
 import paperfrog.dot.web.SessionConst;

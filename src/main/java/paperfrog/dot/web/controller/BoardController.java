@@ -13,17 +13,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.annotation.argumentresolver.Login;
-import paperfrog.dot.domain.Board;
-import paperfrog.dot.domain.BoardForm;
+import paperfrog.dot.domain.*;
+import paperfrog.dot.domain.Board.Board;
+import paperfrog.dot.domain.Board.BoardEditDTO;
+import paperfrog.dot.domain.Board.BoardForm;
+import paperfrog.dot.domain.Board.BoardType;
 import paperfrog.dot.repository.BoardRepository;
-import paperfrog.dot.domain.Member;
 import paperfrog.dot.repository.CommentRepository;
 import paperfrog.dot.service.BoardService;
-import paperfrog.dot.domain.BoardType;
 import paperfrog.dot.web.FileStore;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -39,10 +39,7 @@ public class BoardController {
     private final FileStore fileStore;
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
-    @PostConstruct
-    public void test(){
 
-    }
     @RequestMapping("/list")
     public String boardList(Model model, @Login Member loginMember){
         List<Board> boardList=boardRepository.findListByDtype(BoardType.NORMAL);
@@ -106,20 +103,23 @@ public class BoardController {
     @GetMapping("/{boardId}/editForm")
     public String editForm(Model model,@PathVariable long boardId){
         Board board=boardRepository.findById(boardId);
-        model.addAttribute("board",board);
+        BoardEditDTO boardEditDTO=new BoardEditDTO();
+        boardEditDTO.setDate(board.getDate());
+        boardEditDTO.setTitle(board.getTitle());
+        boardEditDTO.setContent(board.getContent());
+        model.addAttribute("board",boardEditDTO);
+        model.addAttribute("boardId",boardId);
         return "board/editForm";
     }
     @PostMapping("/{boardId}/edit")
-    public String edit(@PathVariable long boardId, Board saveBoard){
-        log.debug("success edit boardId : {}",boardId);
-        boardRepository.update(boardId,saveBoard);
+    public String edit(@PathVariable long boardId, BoardEditDTO boardEditDTO) throws IOException {
+        boardService.update(boardId,boardEditDTO);
         return "redirect:/board/list";
     }
     //delete
     @GetMapping("/{boardId}/delete")
     public String delete(@PathVariable long boardId,@Login Member loginMember){
         boardService.delete(boardId,loginMember);
-
         return "redirect:/board/list";
     }
 

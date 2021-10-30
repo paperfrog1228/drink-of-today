@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.Board;
 import paperfrog.dot.domain.BoardType;
+import paperfrog.dot.domain.Member;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -38,6 +39,14 @@ public class BoardRepository {
     }
     public boolean delete(Board board){
         em.remove(board);
+        em.flush();
         return true;
+    }
+
+    public void deleteAll(){
+        List<Board> list=findAll();
+        for(int i=0;i<list.size();i++){
+            em.remove(list.get(i));
+        }
     }
 }

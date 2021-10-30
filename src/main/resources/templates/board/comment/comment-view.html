@@ -1,0 +1,22 @@
+<!-- 댓글 목록 -->
+<div th:fragment="comment-view">
+    <div class="d-flex flex-row p-1">
+        <h5 class="my-3">전체 댓글</h5>
+        <h5 class="ml-1 my-3 text-danger" th:text=" ${#lists.size(commentList)}"></h5>
+        <h5 class="ml-1 my-3">개!</h5>
+    </div>
+    <div class="border-top border-success border-4"></div>
+    <div th:each="comment:${commentList}">
+        <div class="row border-bottom mt-1">
+            <div class="col-md-2 col-lg-2 col-xl-2 text-muted" th:text="${comment.nickname}">닉네임</div>
+            <div class="col-md-7 col-lg-7 col-xl-7 " style="word-break: break-all" th:text="${#strings.replace(comment.text, nlString, '&lt;br /&gt;')}">댓글 내용</div>
+            <p class="col-md-2 col-lg-2 col-xl-2  fs-6 text-muted" style="white-space: nowrap" th:text="${comment.date}">2021.10.10 20:3</p>
+            <div th:if="${loginMember!=null}" class="col-md-1 col-lg-1 col-xl-1">
+                <form method="DELETE">
+                    <input type="button" th:if="${loginMember.getId().toString()==comment.getWriter.getId().toString()}"
+                            onclick="commentDelete(this.id)" th:id="${comment.id}" class="btn-close" ></input>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

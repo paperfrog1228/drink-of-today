@@ -33,15 +33,25 @@
                 <button type="button" class="btn btn-primary" th:if="${loginMember.nickname==board.writer}"
                         th:onclick="|location.href='@{/board/{boardId}/editForm(boardId=${board.id})}'|"> 수정
                 </button>
-                <button type="button" class="btn btn-primary" th:if="${loginMember.nickname==board.writer}or ${loginMember.memberGrade.toString()=='MANAGER'}"
+                <button type="button" class="btn btn-primary"
+                        th:if="${loginMember.nickname==board.writer}or ${loginMember.memberGrade.toString()=='MANAGER'}"
                         th:onclick="|location.href='@{/board/{boardId}/delete(boardId=${board.id})}'|"> 삭제
                 </button>
             </div>
             <div>
             </div>
         </div>
+        </div>
+        <!-- 댓글 뷰 -->
+        <div id="commentTable">
+        <div  th:replace="board/comment/comment-view.html :: comment-view">댓글 뷰</div>
+        </div>
+        <!-- 댓글 작성란&버튼 -->
+        <div th:if="${loginMember!=null}">
+            <div th:replace="board/comment/comment-write.html :: comment-write">댓글 작성란</div>
+        </div>
     </div>
-    <!--콘텐츠 끝-->
+        <!--콘텐츠 끝-->
 </section>
 <footer th:replace="fragments/footer.html :: footer"> 레이아웃 푸터
 </footer>

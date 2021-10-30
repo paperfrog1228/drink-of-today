@@ -17,6 +17,7 @@ import paperfrog.dot.domain.Board;
 import paperfrog.dot.domain.BoardForm;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.domain.Member;
+import paperfrog.dot.repository.CommentRepository;
 import paperfrog.dot.service.BoardService;
 import paperfrog.dot.domain.BoardType;
 import paperfrog.dot.web.FileStore;
@@ -37,6 +38,7 @@ public class BoardController {
     private final BoardService boardService;
     private final FileStore fileStore;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
     @PostConstruct
     public void test(){
 
@@ -57,6 +59,7 @@ public class BoardController {
         model.addAttribute("board",board);
         model.addAttribute("loginMember",loginMember);
         model.addAttribute("nlString",nlString);
+        model.addAttribute("commentList",commentRepository.findByBoardId(boardId));
         return "board/view/board";
     }
     @GetMapping("/notice")

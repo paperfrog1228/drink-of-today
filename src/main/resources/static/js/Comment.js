@@ -5,7 +5,7 @@ function commentDataSend() {
     };
     var messageDTO=data;
     $.ajax({
-        url: window.location.href+"/comment",
+        url: window.location.href.split('?')[0]+"/comment",
         data: messageDTO,
         type:"POST",
     }).done(function (fragment) {

@@ -1,6 +1,11 @@
 function commentDataSend() {
+    var text=$("#content").val();
+    if(! text){
+        alert("내용을 입력하세요!");
+        return;
+    }
     var data={
-        text:$("#content").val(),
+        text: text,
         memberId: $("#memberId").val(),
     };
     var messageDTO=data;

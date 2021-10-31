@@ -12,10 +12,10 @@ import java.util.ArrayList;
 @Setter
 public class BoardForm {
     @NotBlank
-    @Size(min=1)
+    @Size(max=20)
     private String title;
     @NotBlank
-    @Size(min=1)
+    @Size(max=250)
     private String content;
     public BoardType boardType;
     private ArrayList<MultipartFile> imageFiles=new ArrayList<>();

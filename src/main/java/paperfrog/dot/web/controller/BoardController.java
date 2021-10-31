@@ -87,9 +87,10 @@ public class BoardController {
     public String add(@PathVariable BoardType boardType
             ,@Validated @ModelAttribute("board") BoardForm boardForm
             ,BindingResult bindingResult
+            ,Model model
             ,@Login Member loginMember
             ,RedirectAttributes redirectAttributes) throws IOException {
-
+        model.addAttribute("loginMember",loginMember);
         if(bindingResult.hasErrors()){
             return "board/writeForm";
         }
@@ -114,7 +115,15 @@ public class BoardController {
         return "board/editForm";
     }
     @PostMapping("/{boardId}/edit")
-    public String edit(@PathVariable long boardId, BoardEditDTO boardEditDTO) throws IOException {
+    public String edit(@PathVariable long boardId
+            ,@Validated @ModelAttribute("board") BoardEditDTO boardEditDTO
+            ,BindingResult bindingResult
+            ,Model model
+            ,@Login Member loginMember
+            ,RedirectAttributes redirectAttributes) throws IOException {
+        model.addAttribute("loginMember",loginMember);
+        if(bindingResult.hasErrors())
+            return "board/editForm";
         boardService.update(boardId,boardEditDTO);
         return "redirect:/board/list";
     }

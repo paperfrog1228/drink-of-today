@@ -1,14 +1,16 @@
 package paperfrog.dot.repository;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.Member;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Repository
 @Transactional
@@ -30,8 +32,14 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
-    public Optional<Member> findByLoginId(String loginId){
-        return findAll().stream().filter(m->m.getLoginId().equals(loginId)).findFirst();
+    public Member findByLoginId(String loginId){
+        List<Member> list=findAll();
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getLoginId()==null) continue;
+            if(list.get(i).getLoginId().equals(loginId))
+                return list.get(i);
+        }
+        return null;
     }
     public void deleteAll(){
         List<Member> list=findAll();

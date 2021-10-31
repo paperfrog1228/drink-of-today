@@ -28,7 +28,7 @@
                             display: -webkit-box;
                             -webkit-box-orient: vertical;
                             overflow: hidden;"
-                                th:text="${board.title}">글 제목</h5>
+                                th:utext="${#strings.replace(board.title, nlString, '&lt;br /&gt;')}">글 제목</h5>
                             <h6 class="card-text text-truncate" th:text="${board.writer}">글쓴이</h6>
                             <h6 class="card-text " th:text="${board.date}">날짜</h6>
                         </div>

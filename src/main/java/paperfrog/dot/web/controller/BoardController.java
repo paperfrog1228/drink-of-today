@@ -42,10 +42,12 @@ public class BoardController {
 
     @RequestMapping("/list")
     public String boardList(Model model, @Login Member loginMember){
+        val nlString = System.getProperty("line.separator").toString();
         List<Board> boardList=boardRepository.findListByDtype(BoardType.NORMAL);
         Collections.reverse(boardList);
         model.addAttribute("boardList",boardList);
         model.addAttribute("loginMember",loginMember);
+        model.addAttribute("nlString",nlString);
         return "board/list";
     }
     //read,view

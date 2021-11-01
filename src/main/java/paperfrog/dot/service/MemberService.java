@@ -8,12 +8,11 @@ import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.etc.LineAPI;
 import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.web.EncryptManager;
-import paperfrog.dot.web.MemberValidator;
+import paperfrog.dot.validator.MemberJoinValidator;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 회원가입, 로그인 처리를 하는 서비스입니다.
@@ -23,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberValidator memberValidator;
+    private final MemberJoinValidator memberJoinValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EncryptManager encryptManager;
     private final LineAPI lineAPI;

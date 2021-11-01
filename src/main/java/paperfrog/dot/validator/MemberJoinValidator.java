@@ -1,4 +1,4 @@
-package paperfrog.dot.web;
+package paperfrog.dot.validator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class MemberValidator implements Validator {
+public class MemberJoinValidator implements Validator {
     private final MemberRepository memberRepository;
     @Override
     public boolean supports(Class<?> clazz) {
@@ -31,21 +31,25 @@ public class MemberValidator implements Validator {
         MemberSaveForm member = (MemberSaveForm) target;
         if(!loginIdPatternMatching(member.getLoginId())){
             errors.rejectValue("loginId","Eng");
-        }
-        if(!member.getEmail().equals(member.getEmailConfirm())){
-            errors.rejectValue("emailConfirm","Confirm");
+            return;
         }
         if(isDuplicatedLoginId(member.getLoginId())){
             errors.rejectValue("loginId","Duplicate");
+            return;
         }
         if(isDuplicatedNickname(member.getNickname())){
             errors.rejectValue("nickname","Duplicate");
+            return;
         }
         if(isDuplicatedEmail(member.getEmail())){
             errors.rejectValue("email","Duplicate");
+            return;
+        }
+        if(!member.getEmail().equals(member.getEmailConfirm())){
+            errors.rejectValue("emailConfirm","Confirm");
+            return;
         }
     }
-
     private boolean loginIdPatternMatching(String loginId){
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9]*$");
         Matcher matcher=pattern.matcher(loginId);
@@ -55,15 +59,16 @@ public class MemberValidator implements Validator {
     private boolean isDuplicatedLoginId(String loginId){
         List<Member> list = memberRepository.findAll();
         for (Member m:list) {
+            if(m.getLoginId()==null) continue;
             if(m.getLoginId().equals(loginId))
                 return true;
         }
         return false;
     }
     private boolean isDuplicatedNickname(String nickname){
-
         List<Member> list = memberRepository.findAll();
         for (Member m:list) {
+            if(m.getNickname()==null) continue;
             if(m.getNickname().equals(nickname))
                 return true;
         }

@@ -15,6 +15,7 @@ import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.MemberService;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.SessionConst;
+import paperfrog.dot.validator.MemberJoinValidator;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
-
+    private final MemberJoinValidator memberJoinValidator;
     //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
     public void testMember() {
@@ -55,10 +56,12 @@ public class MemberController {
     public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm
             , BindingResult bindingResult
             , RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
-        Long id = memberService.join(memberForm);
+
+        memberJoinValidator.validate(memberForm,bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/join";
         }
+        Long id = memberService.join(memberForm);
         redirectAttributes.addAttribute("email", memberForm.getEmail());
         return "redirect:/user/invalid_user";
     }

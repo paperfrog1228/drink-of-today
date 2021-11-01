@@ -2,22 +2,22 @@ package paperfrog.dot.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import paperfrog.dot.domain.*;
+import paperfrog.dot.domain.Board.Board;
+import paperfrog.dot.domain.Board.BoardEditDTO;
+import paperfrog.dot.domain.Board.BoardForm;
+import paperfrog.dot.domain.Board.UploadFile;
 import paperfrog.dot.etc.LineAPI;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.web.FileStore;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -42,6 +42,11 @@ public class BoardService {
         lineAPI.sendRequest(saveBoard.getTitle());
         return id;
     }
+    public Long update(Long boardId, BoardEditDTO boardEditDTO) throws IOException {
+        boardEditDTO.setDate(getNowDate());
+        boardEditDTO.setUploadFiles(getImageFiles(boardEditDTO));
+        return boardRepository.update(boardId,boardEditDTO);
+    }
     public boolean delete(Long id,Member member){
         Board deleteBoard=boardRepository.findById(id);
         if(deleteBoard==null) return false;
@@ -54,6 +59,9 @@ public class BoardService {
     }
     private ArrayList<UploadFile> getImageFiles(BoardForm boardForm) throws IOException {
         return fileStore.storeFiles(boardForm.getImageFiles());
+    }
+    private ArrayList<UploadFile> getImageFiles(BoardEditDTO boardEditDTO) throws IOException {
+        return fileStore.storeFiles(boardEditDTO.getImageFiles());
     }
 
     private String getNowDate(){

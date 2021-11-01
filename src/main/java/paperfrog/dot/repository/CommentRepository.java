@@ -3,11 +3,9 @@ package paperfrog.dot.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import paperfrog.dot.domain.Board;
 import paperfrog.dot.domain.Comment;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Id;
 import java.util.List;
 
 @Repository

@@ -1,4 +1,4 @@
-package paperfrog.dot.domain;
+package paperfrog.dot.domain.Board;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,23 +7,18 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-public class BoardForm {
+public class BoardEditDTO {
+    private String date;
     @NotBlank
-    @Size(min=1)
+    @Size(max=20)
     private String title;
     @NotBlank
-    @Size(min=1)
+    @Size(max=250)
     private String content;
-    public BoardType boardType;
     private ArrayList<MultipartFile> imageFiles=new ArrayList<>();
-
-    public BoardForm() {
-    }
-
-    public BoardForm(BoardType boardType) {
-        this.boardType = boardType;
-    }
+    private ArrayList<UploadFile> uploadFiles=new ArrayList<>();
 }

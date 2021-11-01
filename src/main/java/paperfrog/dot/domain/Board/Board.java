@@ -1,4 +1,4 @@
-package paperfrog.dot.domain;
+package paperfrog.dot.domain.Board;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +33,12 @@ public class Board {
     public Board(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+    public Board update(BoardEditDTO boardEditDTO){
+        title= boardEditDTO.getTitle();
+        content= boardEditDTO.getContent();
+        imageFiles=boardEditDTO.getUploadFiles();
+        return this;
     }
 
 }

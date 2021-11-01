@@ -1,25 +1,24 @@
 package paperfrog.dot.integrationTest;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import paperfrog.dot.IntegrationTest;
 import paperfrog.dot.domain.*;
+import paperfrog.dot.domain.Board.BoardForm;
+import paperfrog.dot.domain.Board.BoardType;
 import paperfrog.dot.repository.BoardRepository;
 import paperfrog.dot.repository.CommentRepository;
 import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.BoardService;
 import paperfrog.dot.service.CommentService;
 import paperfrog.dot.service.MemberService;
-import paperfrog.dot.web.EncryptManager;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+
 @Rollback
 public class CommentTest extends IntegrationTest {
     @Autowired

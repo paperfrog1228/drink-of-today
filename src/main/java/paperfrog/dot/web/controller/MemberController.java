@@ -1,4 +1,5 @@
 package paperfrog.dot.web.controller;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,15 @@ import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.service.MemberService;
 import paperfrog.dot.web.Login.LoginForm;
 import paperfrog.dot.web.SessionConst;
+import paperfrog.dot.validator.MemberJoinValidator;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 @Controller
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -27,80 +31,96 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final MemberJoinValidator memberJoinValidator;
     //TODO : 테스트 계정이니 나중에 꼭 지우자
     @PostConstruct
-    public void testMember(){
-        Member member=new Member("카피쿡 부점장");
+    public void testMember() {
+        Member member = new Member("카피쿡 부점장");
         member.setLoginId("manager");
         member.setPassword("122812gg!");
         member.setEmailAuth(true);
         member.setMemberGrade(MemberGrade.MANAGER);
         memberRepository.save(member);
     }
+
     // 회원가입
     @GetMapping("/join")
-    public String joinForm(Model model){
-        model.addAttribute("member",new MemberSaveForm());
+    public String joinForm(Model model) {
+        model.addAttribute("member", new MemberSaveForm());
         return "user/join";
     }
+
     //todo validate 유지보수를 잘 처리하자..
     @PostMapping("/join")
 
-    public String join (@Validated @ModelAttribute("member") MemberSaveForm memberForm
-            ,BindingResult bindingResult
-            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
-        Long id=memberService.join(memberForm);
+    public String join(@Validated @ModelAttribute("member") MemberSaveForm memberForm
+            , BindingResult bindingResult
+            , RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
+
+        memberJoinValidator.validate(memberForm,bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/join";
         }
-        redirectAttributes.addAttribute("email",memberForm.getEmail());
+        Long id = memberService.join(memberForm);
+        redirectAttributes.addAttribute("email", memberForm.getEmail());
         return "redirect:/user/invalid_user";
     }
 
     @GetMapping("member_list")
-    public String memberList(Model model){
-        List<Member> list=memberService.findAll();
-        model.addAttribute("memberList",list);
+    public String memberList(Model model) {
+        List<Member> list = memberService.findAll();
+        model.addAttribute("memberList", list);
         return "member/memberList";
     }
+
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm){
+    public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm) {
         return "user/login";
     }
 
     @PostMapping("/login")
     public String login(LoginForm form
-            ,BindingResult bindingResult
+            , BindingResult bindingResult
             , @RequestParam(defaultValue = "/") String requestURL
             , HttpServletRequest request
-            ,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException, IOException {
-        Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
-        log.debug("form id : {} , form pw : {} ",form.getLoginId(),form.getPassword());
-        if(loginMember==null)
+            , RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException, IOException {
+
+        Member loginMember = new Member();
+        if (form.getLoginId().isEmpty())
             bindingResult.reject("Login");
-        if(bindingResult.hasErrors()){
+        else {
+            loginMember = memberService.login(form.getLoginId(), form.getPassword());
+            log.debug("form id : {} , form pw : {} ", form.getLoginId(), form.getPassword());
+
+            if (loginMember == null)
+                bindingResult.reject("Login");
+        }
+        if (bindingResult.hasErrors()) {
             return "user/login";
         }
-        if(!loginMember.isEmailAuth()){
-            redirectAttributes.addAttribute("email",loginMember.getEmail());
+        if (!loginMember.isEmailAuth()) {
+            redirectAttributes.addAttribute("email", loginMember.getEmail());
             return "redirect:/user/invalid_user";
         }
         //세션 처리
-        HttpSession session=request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER,loginMember);
-        log.debug("loginMember {}",loginMember);
-        return "redirect:"+requestURL;
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        log.debug("loginMember {}", loginMember);
+        return "redirect:" + requestURL;
     }
+
     @GetMapping("invalid_user")
-    public String invalidUser(Member member){
+    public String invalidUser(Member member) {
         return "user/invalid_user";
     }
+
     @GetMapping("success_email_auth")
-    public String successEmailAuth(Member member){
+    public String successEmailAuth(Member member) {
         return "user/success_email_auth";
     }
+
     @GetMapping("confirm_email")
-    public String emailVerified(@RequestParam("token") String tokenID){
+    public String emailVerified(@RequestParam("token") String tokenID) {
         memberService.confirmEmail(tokenID);
         return "redirect:/user/success_email_auth";
     }

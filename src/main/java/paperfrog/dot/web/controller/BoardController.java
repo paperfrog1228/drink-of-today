@@ -13,16 +13,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import paperfrog.annotation.argumentresolver.Login;
-import paperfrog.dot.domain.Board;
-import paperfrog.dot.domain.BoardForm;
+import paperfrog.dot.domain.*;
+import paperfrog.dot.domain.Board.Board;
+import paperfrog.dot.domain.Board.BoardEditDTO;
+import paperfrog.dot.domain.Board.BoardForm;
+import paperfrog.dot.domain.Board.BoardType;
 import paperfrog.dot.repository.BoardRepository;
-import paperfrog.dot.domain.Member;
+import paperfrog.dot.repository.CommentRepository;
 import paperfrog.dot.service.BoardService;
-import paperfrog.dot.domain.BoardType;
 import paperfrog.dot.web.FileStore;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -37,16 +38,16 @@ public class BoardController {
     private final BoardService boardService;
     private final FileStore fileStore;
     private final BoardRepository boardRepository;
-    @PostConstruct
-    public void test(){
+    private final CommentRepository commentRepository;
 
-    }
     @RequestMapping("/list")
     public String boardList(Model model, @Login Member loginMember){
+        val nlString = System.getProperty("line.separator").toString();
         List<Board> boardList=boardRepository.findListByDtype(BoardType.NORMAL);
         Collections.reverse(boardList);
         model.addAttribute("boardList",boardList);
         model.addAttribute("loginMember",loginMember);
+        model.addAttribute("nlString",nlString);
         return "board/list";
     }
     //read,view
@@ -57,6 +58,7 @@ public class BoardController {
         model.addAttribute("board",board);
         model.addAttribute("loginMember",loginMember);
         model.addAttribute("nlString",nlString);
+        model.addAttribute("commentList",commentRepository.findByBoardId(boardId));
         return "board/view/board";
     }
     @GetMapping("/notice")
@@ -85,9 +87,10 @@ public class BoardController {
     public String add(@PathVariable BoardType boardType
             ,@Validated @ModelAttribute("board") BoardForm boardForm
             ,BindingResult bindingResult
+            ,Model model
             ,@Login Member loginMember
             ,RedirectAttributes redirectAttributes) throws IOException {
-
+        model.addAttribute("loginMember",loginMember);
         if(bindingResult.hasErrors()){
             return "board/writeForm";
         }
@@ -103,20 +106,31 @@ public class BoardController {
     @GetMapping("/{boardId}/editForm")
     public String editForm(Model model,@PathVariable long boardId){
         Board board=boardRepository.findById(boardId);
-        model.addAttribute("board",board);
+        BoardEditDTO boardEditDTO=new BoardEditDTO();
+        boardEditDTO.setDate(board.getDate());
+        boardEditDTO.setTitle(board.getTitle());
+        boardEditDTO.setContent(board.getContent());
+        model.addAttribute("board",boardEditDTO);
+        model.addAttribute("boardId",boardId);
         return "board/editForm";
     }
     @PostMapping("/{boardId}/edit")
-    public String edit(@PathVariable long boardId, Board saveBoard){
-        log.debug("success edit boardId : {}",boardId);
-        boardRepository.update(boardId,saveBoard);
+    public String edit(@PathVariable long boardId
+            ,@Validated @ModelAttribute("board") BoardEditDTO boardEditDTO
+            ,BindingResult bindingResult
+            ,Model model
+            ,@Login Member loginMember
+            ,RedirectAttributes redirectAttributes) throws IOException {
+        model.addAttribute("loginMember",loginMember);
+        if(bindingResult.hasErrors())
+            return "board/editForm";
+        boardService.update(boardId,boardEditDTO);
         return "redirect:/board/list";
     }
     //delete
     @GetMapping("/{boardId}/delete")
     public String delete(@PathVariable long boardId,@Login Member loginMember){
         boardService.delete(boardId,loginMember);
-
         return "redirect:/board/list";
     }
 

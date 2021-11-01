@@ -1,6 +1,6 @@
 package paperfrog.annotation;
 
-import paperfrog.validator.SpaceValidator;
+import paperfrog.dot.validator.SpaceValidator;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;

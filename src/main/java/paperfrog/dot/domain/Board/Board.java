@@ -1,4 +1,4 @@
-package paperfrog.dot.domain;
+package paperfrog.dot.domain.Board;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +19,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardType dtype;
     private String content;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.MERGE ,CascadeType.PERSIST})
     private List<UploadFile> imageFiles=new ArrayList<>();
 
     public Board() {
@@ -33,6 +33,12 @@ public class Board {
     public Board(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+    public Board update(BoardEditDTO boardEditDTO){
+        title= boardEditDTO.getTitle();
+        content= boardEditDTO.getContent();
+        imageFiles=boardEditDTO.getUploadFiles();
+        return this;
     }
 
 }

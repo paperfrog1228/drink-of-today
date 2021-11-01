@@ -26,39 +26,39 @@ public class memberTest extends IntegrationTest {
     String password="ttest!#42s";
 
     MemberSaveForm memberSaveForm;
-    @BeforeEach
-    public void createMember(){
-        memberSaveForm =new MemberSaveForm();
-        memberSaveForm.setLoginId(loginID);
-        memberSaveForm.setPassword(password);
-        memberSaveForm.setEmail("paperfrog@naver.com");
-    }
-    @AfterEach
-    public void deleteRepository(){
-        memberRepository.deleteAll();
-    }
-    @Test
-    @DisplayName("로그인 테스트")
-    public void login_test() throws NoSuchAlgorithmException, IOException {
-        //given
-        Long expectId=memberService.join(memberSaveForm);
-        //when
-        Long resultId=memberService.login(loginID,password).getId();
-        //then
-        Assertions.assertThat(expectId).isEqualTo(resultId);
-    }
-    @Test
-    @DisplayName("패스워드 암호화 테스트")
-    public void encrypt_test() throws NoSuchAlgorithmException, IOException {
-        //given
-        String expectPassword=encryptManager.encrypt(password);
-        memberService.join(memberSaveForm);
-        //when
-        String resultPassword=memberService.login(loginID,password).getPassword();
-        //then
-        if(resultPassword==null)
-        System.out.println("resultPassword is null.");
-        Assertions.assertThat(expectPassword).isEqualTo(resultPassword);
-    }
+//    @BeforeEach
+//    public void createMember(){
+//        memberSaveForm =new MemberSaveForm();
+//        memberSaveForm.setLoginId(loginID);
+//        memberSaveForm.setPassword(password);
+//        memberSaveForm.setEmail("paperfrog@naver.com");
+//    }
+//    @AfterEach
+//    public void deleteRepository(){
+//        memberRepository.deleteAll();
+//    }
+//    @Test
+//    @DisplayName("로그인 테스트")
+//    public void login_test() throws NoSuchAlgorithmException, IOException {
+//        //given
+//        Long expectId=memberService.join(memberSaveForm);
+//        //when
+//        Long resultId=memberService.login(loginID,password).getId();
+//        //then
+//        Assertions.assertThat(expectId).isEqualTo(resultId);
+//    }
+//    @Test
+//    @DisplayName("패스워드 암호화 테스트")
+//    public void encrypt_test() throws NoSuchAlgorithmException, IOException {
+//        //given
+//        String expectPassword=encryptManager.encrypt(password);
+//        memberService.join(memberSaveForm);
+//        //when
+//        String resultPassword=memberService.login(loginID,password).getPassword();
+//        //then
+//        if(resultPassword==null)
+//        System.out.println("resultPassword is null.");
+//        Assertions.assertThat(expectPassword).isEqualTo(resultPassword);
+//    }
 
 }

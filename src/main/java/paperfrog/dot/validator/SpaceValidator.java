@@ -1,4 +1,4 @@
-package paperfrog.validator;
+package paperfrog.dot.validator;
 
 import org.thymeleaf.util.StringUtils;
 import paperfrog.annotation.NoSpace;

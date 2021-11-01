@@ -13,15 +13,20 @@ import javax.validation.constraints.Size;
 @Data
 public class MemberSaveForm {
     @Size(max=10,min=2)
+    @NotBlank
     private String nickname;
     @Size(min=4, max=20)
     @NoSpace
+    @NotBlank
     private String loginId;
     @NoSpace
+    @NotBlank
     @Size(min=6, max=20)
     private String password;
     @Email
+    @NotBlank
     private String email;
-
+    @Email
+    @NotBlank
     private String emailConfirm;
 }

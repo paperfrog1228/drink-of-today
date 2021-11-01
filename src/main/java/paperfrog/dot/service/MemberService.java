@@ -2,19 +2,18 @@ package paperfrog.dot.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import paperfrog.dot.domain.ConfirmationToken;
 import paperfrog.dot.domain.Member;
 import paperfrog.dot.domain.MemberSaveForm;
 import paperfrog.dot.etc.LineAPI;
 import paperfrog.dot.repository.MemberRepository;
 import paperfrog.dot.web.EncryptManager;
-import paperfrog.dot.web.Login.LoginForm;
-import paperfrog.dot.web.MemberValidator;
+import paperfrog.dot.validator.MemberJoinValidator;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 /**
  * 회원가입, 로그인 처리를 하는 서비스입니다.
  */
@@ -23,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberValidator memberValidator;
+    private final MemberJoinValidator memberJoinValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EncryptManager encryptManager;
     private final LineAPI lineAPI;
@@ -49,9 +48,11 @@ public class MemberService {
         String finalPassword = password;
         if(loginId=="guest")
             lineAPI.sendRequest("게스트 로그인");
-        return  memberRepository.findByLoginId(loginId)
-                .filter(m -> m.getPassword().equals(finalPassword))
-                .orElse(null);
+        Member member=memberRepository.findByLoginId(loginId);
+        if(member==null) return null;
+        if(member.getPassword().equals(finalPassword))
+            return member;
+        else return null;
     }
     public void confirmEmail(String tokenId) {
         ConfirmationToken findConfirmationToken = confirmationTokenService.findById(tokenId);

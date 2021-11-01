@@ -1,4 +1,4 @@
-package paperfrog.dot.domain;
+package paperfrog.dot.domain.Board;
 
 public enum BoardType {
         NOTICE,NORMAL;

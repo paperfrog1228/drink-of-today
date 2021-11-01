@@ -3,8 +3,9 @@ package paperfrog.dot.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import paperfrog.dot.domain.Board;
-import paperfrog.dot.domain.BoardType;
+import paperfrog.dot.domain.Board.Board;
+import paperfrog.dot.domain.Board.BoardEditDTO;
+import paperfrog.dot.domain.Board.BoardType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -26,10 +27,10 @@ public class BoardRepository {
         return em.createQuery("select m from Board m", Board.class)
                 .getResultList();
     }
-    public void update(Long boardId,Board updateBoard) {
-        Board findItem = findById(boardId);
-        findItem.setContent(updateBoard.getContent());
-        findItem.setTitle(updateBoard.getTitle());
+    public Long update(Long boardId, BoardEditDTO updateBoard) {
+        Board findBoard = findById(boardId);
+        findBoard.update(updateBoard);
+        return boardId;
     }
     public List<Board> findListByDtype(BoardType boardType){
         return em.createQuery("select m from Board m where m.dtype= :boardType", Board.class)
@@ -38,6 +39,14 @@ public class BoardRepository {
     }
     public boolean delete(Board board){
         em.remove(board);
+        em.flush();
         return true;
+    }
+
+    public void deleteAll(){
+        List<Board> list=findAll();
+        for(int i=0;i<list.size();i++){
+            em.remove(list.get(i));
+        }
     }
 }

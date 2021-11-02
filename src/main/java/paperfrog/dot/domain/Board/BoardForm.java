@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Setter
 public class BoardForm {
     @NotBlank
-    @Size(max=20)
+    @Size(max=30)
     private String title;
     @NotBlank
     @Size(max=250)

@@ -17,7 +17,7 @@ public class Comment {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private Member writer;
 
     private String nickname;

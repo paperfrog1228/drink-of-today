@@ -14,7 +14,7 @@ import java.util.List;
 public class BoardEditDTO {
     private String date;
     @NotBlank
-    @Size(max=20)
+    @Size(max=30)
     private String title;
     @NotBlank
     @Size(max=250)
